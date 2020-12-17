@@ -1,6 +1,5 @@
 body {
-    /* background: url('https://www.neoris.com/documents/20126/156115/Neoris-KDP-Slider.jpg/a2a9e988-124e-8dc5-986b-efb832e44527') no-repeat; */
-    background: url('https://www.neoris.com/documents/20126/156115/blog_nir.jpg/8055379b-bd1d-beff-f19a-6b643396936d') no-repeat;
+    background: url('assets/images/neorisBG2.jpg') no-repeat;
     background-position: center center;
     background-size: cover;
     background-attachment: fixed;

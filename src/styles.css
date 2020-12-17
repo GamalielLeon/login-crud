@@ -1,1 +1,23 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+    /* background: url('https://www.neoris.com/documents/20126/156115/Neoris-KDP-Slider.jpg/a2a9e988-124e-8dc5-986b-efb832e44527') no-repeat; */
+    background: url('https://www.neoris.com/documents/20126/156115/blog_nir.jpg/8055379b-bd1d-beff-f19a-6b643396936d') no-repeat;
+    background-position: center center;
+    background-size: cover;
+    background-attachment: fixed;
+    background-color: #0000009a;
+}
+
+div.row form>small {
+    font-weight: bold;
+}
+
+h2 {
+    color: #FFFFFF;
+    letter-spacing: 0.5vw;
+    font-family: Verdana, Tahoma, sans-serif;
+    font-weight: bold;
+}
+
+form button.btn {
+    font-weight: bold;
+}

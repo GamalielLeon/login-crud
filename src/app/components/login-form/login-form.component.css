@@ -1,0 +1,9 @@
+aside#loginAside {
+    background-color: rgba(0, 0, 0, 0.7);
+    /* border: 2px #000000 dashed; */
+    border-radius: 10px;
+}
+
+aside#loginAside>div.row>img {
+    border-radius: 5vw;
+}

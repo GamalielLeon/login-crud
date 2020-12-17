@@ -1,1 +1,23 @@
-<p>login-form works!</p>
+<aside class="container col-11 col-sm-9 col-md-5 my-4" id="loginAside">
+    <div class="row justify-content-center">
+        <h2 class="text-center my-3">INGRESAR</h2>
+        <img src="../../../assets/images/loginImg.jpg" class="img-fluid col-5 my-1" alt="...">
+    </div>
+    <div class="row justify-content-center mx-0">
+        <form>
+            <div class="input-group mt-3">
+                <span class="input-group-text text-secondary" l><span class="fas fa-user fa-lg"></span></span>
+                <input type="email" class="form-control" id="emailFieldLogin" placeholder="Correo electrónico" aria-describedby="emailFieldHelpLogin">
+            </div>
+            <small *ngIf=true id="emailFieldHelpLogin" class="form-text text-danger">Wrong email!</small>
+            <div class="input-group mt-3">
+                <span class="input-group-text text-secondary" l><span class="fas fa-lock-alt fa-lg"></span></span>
+                <input type="password" class="form-control" id="passwordFieldLogin" placeholder="Contraseña" aria-describedby="passwordFieldHelpLogin">
+            </div>
+            <small *ngIf=false id="passwordFieldHelpLogin" class="form-text text-danger">Wrong password!</small>
+            <div class="input-group my-3">
+                <button type="submit" class="btn btn-success col-12">Iniciar Sesión</button>
+            </div>
+        </form>
+    </div>
+</aside>

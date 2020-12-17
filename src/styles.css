@@ -12,15 +12,19 @@ div.row form>small {
 
 h2 {
     color: #FFFFFF;
-    letter-spacing: 0.3vw;
+    letter-spacing: 0.2vw;
     font-family: Verdana, Tahoma, sans-serif;
     font-weight: bold;
     font-size: calc(1.5rem + 0.5vw);
 }
 
-aside.form-component form span.input-group-text,
-input.form-control {
-    border-radius: 15px;
+aside.form-component {
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+}
+
+aside.form-component:hover {
+    background-color: rgba(0, 0, 0, 0.8);
 }
 
 aside.form-component form button.btn {
@@ -28,11 +32,11 @@ aside.form-component form button.btn {
     border-radius: 20px;
 }
 
-aside.form-component {
-    background-color: rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
+aside.form-component form span.input-group-text,
+input.form-control {
+    border-radius: 15px;
 }
 
-aside.form-component:hover {
-    background-color: rgba(0, 0, 0, 0.8);
+aside.form-component form input.form-control:focus {
+    background-color: #DDDDDD;
 }

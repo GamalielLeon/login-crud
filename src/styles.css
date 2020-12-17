@@ -12,11 +12,27 @@ div.row form>small {
 
 h2 {
     color: #FFFFFF;
-    letter-spacing: 0.5vw;
+    letter-spacing: 0.3vw;
     font-family: Verdana, Tahoma, sans-serif;
     font-weight: bold;
+    font-size: calc(1.5rem + 0.5vw);
 }
 
-form button.btn {
+aside.form-component form span.input-group-text,
+input.form-control {
+    border-radius: 15px;
+}
+
+aside.form-component form button.btn {
     font-weight: bold;
+    border-radius: 20px;
+}
+
+aside.form-component {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+
+aside.form-component:hover {
+    background-color: rgba(0, 0, 0, 0.8);
 }

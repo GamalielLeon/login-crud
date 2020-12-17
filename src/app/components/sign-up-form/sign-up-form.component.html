@@ -11,10 +11,10 @@
             </div>
             <small *ngIf=true id="emailFieldHelpSignUp" class="form-text text-danger">Wrong email!</small>
             <div class="input-group mt-3">
-                <span class="input-group-text text-secondary" l><span class="fas fa-lock-alt fa-lg"></span></span>
-                <input type="password" class="form-control" id="passwordFieldSignUp" placeholder="Contraseña" aria-describedby="passwordFieldHelpSignUp">
+                <span class="input-group-text text-secondary" l><span class="fas fa-pencil-alt fa-lg"></span></span>
+                <input type="text" class="form-control" id="nameFieldSignUp" placeholder="Nombre completo" aria-describedby="nameFieldHelpSignUp">
             </div>
-            <small *ngIf=false id="passwordFieldHelpSignUp" class="form-text text-danger">Wrong password!</small>
+            <small *ngIf=false id="nameFieldHelpSignUp" class="form-text text-danger">Wrong entry!</small>
             <div class="input-group mt-3">
                 <span class="input-group-text text-secondary"><span class="far fa-calendar-alt fa-lg"></span></span>
                 <input type="date" class="form-control" id="birthdayFieldSignUp" min="1950-01-01" max="2020-12-31" aria-describedby="birthdayHelpFieldSignUp">

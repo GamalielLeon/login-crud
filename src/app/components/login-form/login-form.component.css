@@ -1,3 +1,19 @@
 aside#loginAside>div.row>img {
     border-radius: 5vw;
 }
+
+section.container ul {
+    list-style-type: none;
+    text-align: center;
+}
+
+section.container>nav a {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+section.container>nav li>a:hover {
+    color: #bdbdbd;
+    font-weight: bold;
+    text-decoration: underline;
+}

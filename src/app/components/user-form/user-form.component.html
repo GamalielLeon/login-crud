@@ -1,1 +1,28 @@
-<p>user-form works!</p>
+<aside class="container col-11 col-sm-9 col-md-5 my-4 form-component" id="signUpAside">
+    <div class="row justify-content-center">
+        <h2 class="text-center my-3">CREAR CUENTA</h2>
+        <img src="../../../assets/images/signupImg.png" class="img-fluid col-5" alt="...">
+    </div>
+    <div class="row justify-content-center mx-0">
+        <form [formGroup]="userForm" (ngSubmit)="checkSubmit()">
+            <div class="input-group mt-3">
+                <span class="input-group-text text-secondary" l><span class="fas fa-user fa-lg"></span></span>
+                <input type="email" class="form-control" id="emailFieldSignUp" placeholder="Correo electrónico" aria-describedby="emailFieldHelpSignUp" formControlName="email" [class.is-invalid]="isFieldInvalid('email')">
+            </div>
+            <small *ngIf="isFieldInvalid('email')" id="emailFieldHelpSignUp" class="form-text text-danger">Wrong email!</small>
+            <div class="input-group mt-3">
+                <span class="input-group-text text-secondary" l><span class="fas fa-pencil-alt fa-lg"></span></span>
+                <input type="text" class="form-control" id="nameFieldSignUp" placeholder="Nombre completo" aria-describedby="nameFieldHelpSignUp" formControlName="name" [class.is-invalid]="isFieldInvalid('name')">
+            </div>
+            <small *ngIf="isFieldInvalid('name')" id="nameFieldHelpSignUp" class="form-text text-danger">Wrong entry!</small>
+            <div class="input-group mt-3">
+                <span class="input-group-text text-secondary"><span class="far fa-calendar-alt fa-lg"></span></span>
+                <input type="date" class="form-control" id="birthdateFieldSignUp" min="1950-01-01" max="2020-12-31" aria-describedby="birthdateHelpFieldSignUp" formControlName="birthdate" [class.is-invalid]="isFieldInvalid('birthdate')">
+            </div>
+            <small *ngIf="isFieldInvalid('birthdate')" id="birthdateHelpFieldSignUp" class="form-text text-danger">Wrong date!</small>
+            <div class="input-group my-3">
+                <button type="submit" class="btn btn-primary col-12" [class.disabled]="userForm.invalid">Continuar</button>
+            </div>
+        </form>
+    </div>
+</aside>

@@ -12,12 +12,17 @@
             <small *ngIf="isFieldInvalid('email')" id="emailFieldHelpSignUp" class="form-text text-danger">Wrong email!</small>
             <div class="input-group mt-3">
                 <span class="input-group-text text-secondary" l><span class="fas fa-pencil-alt fa-lg"></span></span>
-                <input type="text" class="form-control" id="nameFieldSignUp" placeholder="Nombre completo" aria-describedby="nameFieldHelpSignUp" formControlName="name" [class.is-invalid]="isFieldInvalid('name')">
+                <input type="text" class="form-control" id="nameFieldSignUp" placeholder="Nombre" aria-describedby="firstNameFieldHelpSignUp" formControlName="firstName" [class.is-invalid]="isFieldInvalid('firstName')">
             </div>
-            <small *ngIf="isFieldInvalid('name')" id="nameFieldHelpSignUp" class="form-text text-danger">Wrong entry!</small>
+            <small *ngIf="isFieldInvalid('firstName')" id="firstNameFieldHelpSignUp" class="form-text text-danger">Wrong first name!</small>
+            <div class="input-group mt-3">
+                <span class="input-group-text text-secondary" l><span class="fas fa-pencil-alt fa-lg"></span></span>
+                <input type="text" class="form-control" id="lastNameFieldSignUp" placeholder="Apellidos" aria-describedby="lastNameFieldHelpSignUp" formControlName="lastName" [class.is-invalid]="isFieldInvalid('lastName')">
+            </div>
+            <small *ngIf="isFieldInvalid('lastName')" id="lastNameFieldHelpSignUp" class="form-text text-danger">Wrong last name!</small>
             <div class="input-group mt-3">
                 <span class="input-group-text text-secondary"><span class="far fa-calendar-alt fa-lg"></span></span>
-                <input type="date" class="form-control" id="birthdateFieldSignUp" min="1950-01-01" max="2020-12-31" aria-describedby="birthdateHelpFieldSignUp" formControlName="birthdate" [class.is-invalid]="isFieldInvalid('birthdate')">
+                <input type="date" class="form-control" id="birthdateFieldSignUp" min="1950-01-01" [max]="getMaxDate()" aria-describedby="birthdateHelpFieldSignUp" formControlName="birthdate" [class.is-invalid]="isFieldInvalid('birthdate')">
             </div>
             <small *ngIf="isFieldInvalid('birthdate')" id="birthdateHelpFieldSignUp" class="form-text text-danger">Wrong date!</small>
             <div class="input-group my-3">

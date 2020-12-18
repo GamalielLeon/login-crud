@@ -8,7 +8,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./sign-up-form.component.css']
 })
 export class SignUpFormComponent implements OnInit {
-
+  // Attributes
+  private maxDate: string = '';
   // References
   signUpForm: FormGroup;
 
@@ -16,11 +17,15 @@ export class SignUpFormComponent implements OnInit {
     this.signUpForm = formBuilder.group({
       // Required, only admits alphanumerics and must have btw 6 to 12 characters.
       email: ['', [Validators.required, Validators.pattern('([a-zA-Z0-9._-]{2,})+([@]+[a-zA-Z0-9._-]{2,})+([\.]+[a-z]{2,5}$)')]],
-      name: ['', [Validators.required, Validators.pattern('([a-zA-ZÑñáéíóúÁÉÍÓÚ ]){4,}')]],
+      firstName: ['', [Validators.required, Validators.pattern('([a-zA-ZÑñáéíóúÁÉÍÓÚ ]){3,}')]],
+      lastName: ['', [Validators.required, Validators.pattern('([a-zA-ZÑñáéíóúÁÉÍÓÚ ]){3,}')]],
       birthdate: ['']
     });
   }
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    const today = new Date();
+    this.maxDate = today.getFullYear().toString() + '-' + today.getMonth().toString() + '-' + today.getDate().toString();
+  }
 
   /********** METHODS **********/
   checkSubmit(): void{
@@ -32,6 +37,7 @@ export class SignUpFormComponent implements OnInit {
   }
 
   /********** GETTERS **********/
+  getMaxDate = (): string => this.maxDate;
 
   /********** SETTERS **********/
 

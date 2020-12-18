@@ -16,8 +16,9 @@
             </div>
             <small *ngIf="isFieldInvalid('password')" id="passwordFieldHelpLogin" class="form-text text-danger">Wrong password!</small>
             <div class="input-group my-3">
-                <button type="submit" class="btn btn-success col-12" [class.disabled]="loginForm.invalid">Iniciar Sesión</button>
+                <button type="submit" class="btn btn-success col-12" [class.disabled]="loginForm.invalid" [attr.data-bs-toggle]="loginForm.invalid ? 'modal' : ''" data-bs-target="#popUpWindow">Iniciar Sesión</button>
             </div>
         </form>
     </div>
+    <app-pop-up-window [message]="'Algunos campos no están llenados correctamente'"></app-pop-up-window>
 </aside>

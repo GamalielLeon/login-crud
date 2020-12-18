@@ -33,7 +33,8 @@ aside.form-component form button.btn {
 }
 
 aside.form-component form span.input-group-text,
-input.form-control {
+.form-control,
+.form-select {
     border-radius: 15px;
 }
 

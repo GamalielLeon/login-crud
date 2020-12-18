@@ -8,8 +8,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./sign-up-form.component.css']
 })
 export class SignUpFormComponent implements OnInit {
-  // Attributes
-  private maxDate: string = '';
   // References
   signUpForm: FormGroup;
 
@@ -22,10 +20,7 @@ export class SignUpFormComponent implements OnInit {
       birthdate: ['']
     });
   }
-  ngOnInit(): void {
-    const today = new Date();
-    this.maxDate = today.getFullYear().toString() + '-' + today.getMonth().toString() + '-' + today.getDate().toString();
-  }
+  ngOnInit(): void { }
 
   /********** METHODS **********/
   checkSubmit(): void{
@@ -35,9 +30,12 @@ export class SignUpFormComponent implements OnInit {
     const field = this.signUpForm.controls[fieldName];
     return field.invalid && field.touched;
   }
+  getMaxDate(): string{
+    const today = new Date();
+    return (today.getFullYear().toString() + '-' + (today.getMonth() + 1).toString() + '-' + today.getDate().toString());
+  }
 
   /********** GETTERS **********/
-  getMaxDate = (): string => this.maxDate;
 
   /********** SETTERS **********/
 

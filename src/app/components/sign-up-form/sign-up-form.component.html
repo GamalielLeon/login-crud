@@ -26,8 +26,9 @@
             </div>
             <small *ngIf="isFieldInvalid('birthdate')" id="birthdateHelpFieldSignUp" class="form-text text-danger">Wrong date!</small>
             <div class="input-group my-3">
-                <button type="submit" class="btn btn-primary col-12" [class.disabled]="signUpForm.invalid">Continuar</button>
+                <button type="submit" class="btn btn-primary col-12" [class.disabled]="signUpForm.invalid" [attr.data-bs-toggle]="signUpForm.invalid ? 'modal' : ''" data-bs-target="#popUpWindow">Continuar</button>
             </div>
         </form>
     </div>
+    <app-pop-up-window [message]="'Algunos campos no están llenados correctamente'"></app-pop-up-window>
 </aside>

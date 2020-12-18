@@ -1,28 +1,41 @@
 <aside class="container col-11 col-sm-9 col-md-5 my-4 form-component" id="signUpAside">
     <div class="row justify-content-center">
-        <h2 class="text-center my-3">CREAR CUENTA</h2>
-        <img src="../../../assets/images/signupImg.png" class="img-fluid col-5" alt="...">
+        <h2 class="text-center my-3">{{titleUserForm}}</h2>
+        <span class="text-center text-primary" [ngClass]="iconUserForm"></span>
     </div>
     <div class="row justify-content-center mx-0">
         <form [formGroup]="userForm" (ngSubmit)="checkSubmit()">
             <div class="input-group mt-3">
                 <span class="input-group-text text-secondary" l><span class="fas fa-user fa-lg"></span></span>
-                <input type="email" class="form-control" id="emailFieldSignUp" placeholder="Correo electrónico" aria-describedby="emailFieldHelpSignUp" formControlName="email" [class.is-invalid]="isFieldInvalid('email')">
+                <input type="email" class="form-control" id="emailFieldUser" placeholder="Correo electrónico" aria-describedby="emailFieldHelpUser" formControlName="email" [class.is-invalid]="isFieldInvalid('email')">
             </div>
-            <small *ngIf="isFieldInvalid('email')" id="emailFieldHelpSignUp" class="form-text text-danger">Wrong email!</small>
+            <small *ngIf="isFieldInvalid('email')" id="emailFieldHelpUser" class="form-text text-danger">Wrong email!</small>
             <div class="input-group mt-3">
                 <span class="input-group-text text-secondary" l><span class="fas fa-pencil-alt fa-lg"></span></span>
-                <input type="text" class="form-control" id="nameFieldSignUp" placeholder="Nombre completo" aria-describedby="nameFieldHelpSignUp" formControlName="name" [class.is-invalid]="isFieldInvalid('name')">
+                <input type="text" class="form-control" id="nameFieldUser" placeholder="Nombre" aria-describedby="firstNameFieldHelpUser" formControlName="firstName" [class.is-invalid]="isFieldInvalid('firstName')">
             </div>
-            <small *ngIf="isFieldInvalid('name')" id="nameFieldHelpSignUp" class="form-text text-danger">Wrong entry!</small>
+            <small *ngIf="isFieldInvalid('firstName')" id="firstNameFieldHelpUser" class="form-text text-danger">Wrong first name!</small>
+            <div class="input-group mt-3">
+                <span class="input-group-text text-secondary" l><span class="fas fa-pencil-alt fa-lg"></span></span>
+                <input type="text" class="form-control" id="lastNameFieldUser" placeholder="Apellidos" aria-describedby="lastNameFieldHelpUser" formControlName="lastName" [class.is-invalid]="isFieldInvalid('lastName')">
+            </div>
+            <small *ngIf="isFieldInvalid('lastName')" id="lastNameFieldHelpUser" class="form-text text-danger">Wrong last name!</small>
             <div class="input-group mt-3">
                 <span class="input-group-text text-secondary"><span class="far fa-calendar-alt fa-lg"></span></span>
-                <input type="date" class="form-control" id="birthdateFieldSignUp" min="1950-01-01" max="2020-12-31" aria-describedby="birthdateHelpFieldSignUp" formControlName="birthdate" [class.is-invalid]="isFieldInvalid('birthdate')">
+                <input type="date" class="form-control" id="birthdateFieldUser" min="1950-01-01" [max]="getMaxDate()" aria-describedby="birthdateHelpFieldUser" formControlName="birthdate" [class.is-invalid]="isFieldInvalid('birthdate')">
             </div>
-            <small *ngIf="isFieldInvalid('birthdate')" id="birthdateHelpFieldSignUp" class="form-text text-danger">Wrong date!</small>
+            <small *ngIf="isFieldInvalid('birthdate')" id="birthdateHelpFieldUser" class="form-text text-danger">Wrong date!</small>
+            <div class="input-group mt-3">
+                <span class="input-group-text text-secondary" l><span class="fas fa-users-cog fa-lg"></span></span>
+                <select class="form-select" id="roleFieldUser" formControlName="role" [class.is-invalid]="isFieldInvalid('role')">
+                  <option *ngFor="let role of getRoles(); let i=index">{{role}}</option>
+                </select>
+            </div>
+            <small *ngIf="isFieldInvalid('role')" id="lastNameFieldHelpUser" class="form-text text-danger">Not selected!</small>
             <div class="input-group my-3">
-                <button type="submit" class="btn btn-primary col-12" [class.disabled]="userForm.invalid">Continuar</button>
+                <button type="submit" class="btn btn-primary col-12" [class.disabled]="userForm.invalid" [attr.data-bs-toggle]="userForm.invalid ? 'modal' : ''" data-bs-target="#popUpWindow">Guardar</button>
             </div>
         </form>
     </div>
+    <app-pop-up-window [message]="'Algunos campos no están llenados correctamente'"></app-pop-up-window>
 </aside>

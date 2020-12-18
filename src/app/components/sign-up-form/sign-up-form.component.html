@@ -4,7 +4,7 @@
         <img src="../../../assets/images/signupImg.png" class="img-fluid col-5" alt="...">
     </div>
     <div class="row justify-content-center mx-0">
-        <form>
+        <form [formGroup]="signUpForm">
             <div class="input-group mt-3">
                 <span class="input-group-text text-secondary" l><span class="fas fa-user fa-lg"></span></span>
                 <input type="email" class="form-control" id="emailFieldSignUp" placeholder="Correo electrónico" aria-describedby="emailFieldHelpSignUp">

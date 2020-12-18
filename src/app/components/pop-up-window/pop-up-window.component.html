@@ -1,1 +1,16 @@
-<p>pop-up-window works!</p>
+<div #exampleModal class="modal fade" id="popUpWindow" tabindex="-1" aria-labelledby="popUpWindowLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="modal-title" id="popUpWindowLabel">{{message}}</p>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body mx-auto">
+                <span class="far fa-exclamation-triangle fa-7x text-danger"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>

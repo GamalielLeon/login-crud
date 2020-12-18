@@ -10,6 +10,7 @@ import { LoginFormComponent } from './components/login-form/login-form.component
 import { ResetPasswordFormComponent } from './components/reset-password-form/reset-password-form.component';
 import { NewPasswordFormComponent } from './components/new-password-form/new-password-form.component';
 import { UserListComponent } from './components/user-list/user-list.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { UserListComponent } from './components/user-list/user-list.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -2,18 +2,21 @@ aside#loginAside>div.row>img {
     border-radius: 5vw;
 }
 
-section.container ul {
+aside#loginAside ul {
     list-style-type: none;
     text-align: center;
 }
 
-section.container>nav a {
-    color: #FFFFFF;
+aside#loginAside>nav a {
+    color: #e7e7e7;
     text-decoration: none;
+    font-weight: bold;
 }
 
-section.container>nav li>a:hover {
-    color: #bdbdbd;
-    font-weight: bold;
+aside#loginAside>nav li>a:hover {
+    text-decoration: underline;
+}
+
+aside#loginAside>nav li>a:focus {
     text-decoration: underline;
 }

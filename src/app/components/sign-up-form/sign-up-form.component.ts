@@ -24,7 +24,7 @@ export class SignUpFormComponent implements OnInit {
 
   /********** METHODS **********/
   checkSubmit(): void{
-    if (this.signUpForm.valid) { this.router.navigateByUrl('/newPassword'); }
+    if (this.signUpForm.valid) { this.router.navigateByUrl('/login'); }
   }
   isFieldInvalid(fieldName: string): boolean{
     const field = this.signUpForm.controls[fieldName];

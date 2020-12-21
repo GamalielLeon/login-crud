@@ -21,7 +21,8 @@ export class ResetPasswordFormComponent implements OnInit {
   ngOnInit(): void { }
 
   checkSubmit(): void{
-    if (this.resetPasswordForm.valid) { this.router.navigateByUrl('/login'); }
+    if (this.resetPasswordForm.valid) { this.router.navigateByUrl('/newPassword'); }
+    this.resetPasswordForm.markAllAsTouched();
   }
   isFieldInvalid(fieldName: string): boolean{
     const field = this.resetPasswordForm.controls[fieldName];

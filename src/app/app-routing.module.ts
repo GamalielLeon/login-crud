@@ -9,15 +9,15 @@ import { UserListComponent } from './components/user-list/user-list.component';
 import { ResetPasswordFormComponent } from './components/reset-password-form/reset-password-form.component';
 
 const routes: Routes = [
-  {path: 'login', component: LoginFormComponent},
+  {path: '', component: LoginFormComponent},
   {path: 'register', component: SignUpFormComponent},
   {path: 'newPassword', component: NewPasswordFormComponent},
   {path: 'recoverPassword', component: ResetPasswordFormComponent},
   {path: 'popup', component: PopUpWindowComponent},
-  {path: 'detail', component: UserListComponent},
-  {path: 'addUser', component: UserFormComponent},
-  {path: 'editUser', component: UserFormComponent},
-  {path: '**', pathMatch: 'full', redirectTo: 'login'}
+  {path: 'usersList', component: UserListComponent},
+  {path: 'usersList/addUser', component: UserFormComponent},
+  {path: 'usersList/editUser', component: UserFormComponent},
+  {path: '**', pathMatch: 'full', redirectTo: ''}
 ];
 
 @NgModule({

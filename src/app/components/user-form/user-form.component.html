@@ -32,8 +32,9 @@
                 </select>
             </div>
             <small *ngIf="isFieldInvalid('role')" id="lastNameFieldHelpUser" class="form-text text-danger">Not selected!</small>
-            <div class="input-group my-3">
-                <button type="submit" class="btn btn-primary col-12" [class.disabled]="userForm.invalid" [attr.data-bs-toggle]="userForm.invalid ? 'modal' : ''" data-bs-target="#popUpWindow">Guardar</button>
+            <div class="row my-3 justify-content-between mx-0">
+                <button type="button" class="btn btn-danger col-5" (click)="onCancel()">Cancelar</button>
+                <button type="submit" class="btn btn-primary col-5" [class.disabled]="userForm.invalid" [attr.data-bs-toggle]="userForm.invalid ? 'modal' : ''" data-bs-target="#popUpWindow">Guardar</button>
             </div>
         </form>
     </div>

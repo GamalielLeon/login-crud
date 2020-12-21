@@ -11,6 +11,7 @@ aside#loginAside>nav a {
     color: #e7e7e7;
     text-decoration: none;
     font-weight: bold;
+    font-family: Helvetica, Arial;
 }
 
 aside#loginAside>nav li>a:hover {

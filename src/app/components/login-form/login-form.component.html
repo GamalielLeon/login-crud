@@ -9,12 +9,12 @@
                 <span class="input-group-text text-secondary" l><span class="fas fa-user fa-lg"></span></span>
                 <input type="email" class="form-control" id="emailFieldLogin" placeholder="Correo electrónico" aria-describedby="emailFieldHelpLogin" formControlName="email" [class.is-invalid]="isFieldInvalid('email')">
             </div>
-            <small *ngIf="isFieldInvalid('email')" id="emailFieldHelpLogin" class="form-text text-danger">Wrong email!</small>
+            <small *ngIf="isFieldInvalid('email')" id="emailFieldHelpLogin" class="form-text text-danger">Formato de correo no válido.</small>
             <div class="input-group mt-3">
                 <span class="input-group-text text-secondary" l><span class="fas fa-lock-alt fa-lg"></span></span>
-                <input type="password" class="form-control" id="passwordFieldLogin" placeholder="Contraseña" aria-describedby="passwordFieldHelpLogin" formControlName="password" [class.is-invalid]="isFieldInvalid('password')">
+                <input type="password" class="form-control" id="passwordFieldLogin" maxlength="10" placeholder="Contraseña" aria-describedby="passwordFieldHelpLogin" formControlName="password" [class.is-invalid]="isFieldInvalid('password')">
             </div>
-            <small *ngIf="isFieldInvalid('password')" id="passwordFieldHelpLogin" class="form-text text-danger">Wrong password!</small>
+            <small *ngIf="isFieldInvalid('password')" id="passwordFieldHelpLogin" class="form-text text-danger">Se requieren como mínimo 8 caracteres.</small>
             <div class="input-group my-3">
                 <button type="submit" class="btn btn-success col-12" [class.disabled]="loginForm.invalid" [attr.data-bs-toggle]="loginForm.invalid ? 'modal' : ''" data-bs-target="#popUpWindow">Iniciar Sesión</button>
             </div>
@@ -23,9 +23,9 @@
     <app-pop-up-window [message]="'Algunos campos no están llenados correctamente'"></app-pop-up-window>
     <nav class="row justify-content-center">
         <ul>
-            <li><a routerLink="/register">New? Sign Up</a></li>
+            <li><a routerLink="/register">Registrarse</a></li>
             <li><a routerLink="/newPassword">Set New Password</a></li>
-            <li><a routerLink="/recoverPassword">Forgot Password?</a></li>
+            <li><a routerLink="/recoverPassword">Recuperación de contraseña</a></li>
         </ul>
     </nav>
 </aside>

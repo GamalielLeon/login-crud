@@ -16,7 +16,7 @@ export class LoginFormComponent implements OnInit {
     this.loginForm = formBuilder.group({
       // Required, only admits alphanumerics and must have btw 6 to 12 characters.
       email: ['', [Validators.required, Validators.pattern('([a-zA-Z0-9._-]{2,})+([@]+[a-zA-Z0-9._-]{2,})+([\.]+[a-z]{2,5}$)')]],
-      password: ['', [Validators.required, Validators.pattern('([a-zA-Z0-9Ññ_-]){6,12}')]]
+      password: ['', [Validators.required, Validators.pattern('([a-zA-Z0-9]){8,10}')]]
     });
   }
   ngOnInit(): void { }
@@ -24,6 +24,7 @@ export class LoginFormComponent implements OnInit {
   /********** METHODS **********/
   checkSubmit(): void{
     if (this.loginForm.valid) { this.router.navigateByUrl('/register'); }
+    this.loginForm.markAllAsTouched();
   }
   isFieldInvalid(fieldName: string): boolean{
     const field = this.loginForm.controls[fieldName];

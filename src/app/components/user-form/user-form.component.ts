@@ -27,7 +27,11 @@ export class UserFormComponent implements OnInit {
 
   /********** METHODS **********/
   checkSubmit(): void{
-    if (this.userForm.valid) { this.router.navigateByUrl('/detail'); }
+    if (this.userForm.valid) { this.router.navigateByUrl('/usersList'); }
+    this.userForm.markAllAsTouched();
+  }
+  onCancel(): void{
+    this.router.navigateByUrl('/usersList');
   }
   isFieldInvalid(fieldName: string): boolean{
     const field = this.userForm.controls[fieldName];

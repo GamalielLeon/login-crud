@@ -1,9 +1,9 @@
 body {
-    background: url('assets/images/neorisBG3.png') no-repeat;
+    background: url('assets/images/neorisBG4.jpg') no-repeat;
     background-position: center center;
     background-size: cover;
     background-attachment: fixed;
-    background-color: #0000009a;
+    background-color: #303030;
 }
 
 div.row form>small {
@@ -13,7 +13,8 @@ div.row form>small {
 h2 {
     color: #FFFFFF;
     letter-spacing: 0.2vw;
-    font-family: Verdana, Tahoma, sans-serif;
+    /* font-family: Verdana, Tahoma, sans-serif; */
+    font-family: 'Lucida Sans Unicode', Helvetica;
     font-weight: bold;
     font-size: calc(1.5rem + 0.5vw);
 }

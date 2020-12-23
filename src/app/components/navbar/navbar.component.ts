@@ -18,7 +18,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
     // Unsubscribe from the observable and clear the setInterval function inside the observable.
     this.showImagesBgSubscription.unsubscribe();
     clearInterval(this.refSetIntervalShowImagesObs);
-    document.body.style.backgroundImage = 'url("assets/images/bgImg0.jpg")';
   }
 
   // Method that changes the background image, using an observable.

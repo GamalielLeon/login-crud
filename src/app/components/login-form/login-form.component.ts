@@ -19,11 +19,11 @@ export class LoginFormComponent implements OnInit {
       password: ['', [Validators.required, Validators.pattern('([a-zA-Z0-9]){8,10}')]]
     });
   }
-  ngOnInit(): void { }
+  ngOnInit(): void { document.body.style.backgroundImage = 'url("assets/images/bgImg0.jpg")'; }
 
   /********** METHODS **********/
   checkSubmit(): void{
-    if (this.loginForm.valid) { this.router.navigateByUrl('/register'); }
+    if (this.loginForm.valid) { this.router.navigateByUrl('register'); }
     this.loginForm.markAllAsTouched();
   }
   isFieldInvalid(fieldName: string): boolean{

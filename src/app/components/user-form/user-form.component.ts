@@ -36,7 +36,7 @@ export class UserFormComponent implements OnInit {
 
   /********** METHODS **********/
   checkSubmit(): void{
-    if (this.userForm.valid) { this.router.navigateByUrl('/usersList'); }
+    if (this.userForm.valid) { this.router.navigateByUrl('usersList'); }
     this.userForm.markAllAsTouched();
   }
   onCancel(): void{

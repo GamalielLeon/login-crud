@@ -26,7 +26,7 @@ export class NewPasswordFormComponent implements OnInit {
 
   /********** METHODS **********/
   checkSubmit(): void{
-    if (this.getPasswordsMatched() && this.createPasswordForm.valid) { this.router.navigateByUrl('/'); }
+    if (this.getPasswordsMatched() && this.createPasswordForm.valid) { this.router.navigateByUrl(''); }
     this.createPasswordForm.markAllAsTouched();
   }
   isFieldInvalid(fieldName: string): boolean{

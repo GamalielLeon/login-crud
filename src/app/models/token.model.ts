@@ -1,4 +1,4 @@
 export interface TokenModel{
-  Username: string;
-  Password: string;
+  email: string;
+  password: string;
 }

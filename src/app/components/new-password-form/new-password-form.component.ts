@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LOGIN } from 'src/app/constants/paths';
+import { PASSWORD_PATTERN } from 'src/app/constants/patterns';
 
 @Component({
   selector: 'app-new-password-form',
@@ -18,15 +20,15 @@ export class NewPasswordFormComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private router: Router) {
     this.createPasswordForm = formBuilder.group({
       // Required, only admits alphanumerics and must have btw 8 to 10 characters.
-      password: ['', [Validators.required, Validators.pattern('(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,10}')]],
-      passwordConfirm: ['', [Validators.required, Validators.pattern('(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,10}')]]
+      password: ['', [Validators.required, Validators.pattern(PASSWORD_PATTERN)]],
+      passwordConfirm: ['', [Validators.required, Validators.pattern(PASSWORD_PATTERN)]]
     });
    }
   ngOnInit(): void { }
 
   /********** METHODS **********/
   checkSubmit(): void{
-    if (this.getPasswordsMatched() && this.createPasswordForm.valid) { this.router.navigateByUrl(''); }
+    if (this.getPasswordsMatched() && this.createPasswordForm.valid) { this.router.navigateByUrl(LOGIN); }
     this.createPasswordForm.markAllAsTouched();
   }
   isFieldInvalid(fieldName: string): boolean{

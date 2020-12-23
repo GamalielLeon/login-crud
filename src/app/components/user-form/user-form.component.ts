@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { USERS_LIST } from 'src/app/constants/paths';
+import { EMAIL_PATTERN, NAME_PATTERN } from '../../constants/patterns';
 
 @Component({
   selector: 'app-user-form',
@@ -17,9 +19,9 @@ export class UserFormComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private router: Router) {
     this.userForm = formBuilder.group({
       // Required, only admits alphanumerics and must have btw 6 to 12 characters.
-      email: ['', [Validators.required, Validators.pattern('([a-zA-Z0-9._-]{2,})+([@]+[a-zA-Z0-9._-]{2,})+([\.]+[a-z]{2,5}$)')]],
-      firstName: ['', [Validators.required, Validators.pattern('([a-zA-ZÑñáéíóúÁÉÍÓÚ ]){3,}')]],
-      lastName: ['', [Validators.required, Validators.pattern('([a-zA-ZÑñáéíóúÁÉÍÓÚ ]){3,}')]],
+      email: ['', [Validators.required, Validators.pattern(EMAIL_PATTERN)]],
+      firstName: ['', [Validators.required, Validators.pattern(NAME_PATTERN)]],
+      lastName: ['', [Validators.required, Validators.pattern(NAME_PATTERN)]],
       birthdate: [''],
       role: ['General', Validators.required]
     });
@@ -36,11 +38,11 @@ export class UserFormComponent implements OnInit {
 
   /********** METHODS **********/
   checkSubmit(): void{
-    if (this.userForm.valid) { this.router.navigateByUrl('usersList'); }
+    if (this.userForm.valid) { this.router.navigateByUrl(USERS_LIST); }
     this.userForm.markAllAsTouched();
   }
   onCancel(): void{
-    this.router.navigateByUrl('/usersList');
+    this.router.navigateByUrl(USERS_LIST);
   }
   isFieldInvalid(fieldName: string): boolean{
     const field = this.userForm.controls[fieldName];

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NEW_PASSWORD } from 'src/app/constants/paths';
+import { EMAIL_PATTERN, NAME_PATTERN } from 'src/app/constants/patterns';
 
 @Component({
   selector: 'app-sign-up-form',
@@ -14,9 +16,9 @@ export class SignUpFormComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private router: Router) {
     this.signUpForm = formBuilder.group({
       // Required, only admits alphanumerics and must have btw 6 to 12 characters.
-      email: ['', [Validators.required, Validators.pattern('([a-zA-Z0-9._-]{2,})+([@]+[a-zA-Z0-9._-]{2,})+([\.]+[a-z]{2,5}$)')]],
-      firstName: ['', [Validators.required, Validators.pattern('([a-zA-ZÑñáéíóúÁÉÍÓÚ ]){3,50}')]],
-      lastName: ['', [Validators.required, Validators.pattern('([a-zA-ZÑñáéíóúÁÉÍÓÚ ]){3,50}')]],
+      email: ['', [Validators.required, Validators.pattern(EMAIL_PATTERN)]],
+      firstName: ['', [Validators.required, Validators.pattern(NAME_PATTERN)]],
+      lastName: ['', [Validators.required, Validators.pattern(NAME_PATTERN)]],
       birthdate: ['']
     });
   }
@@ -24,7 +26,7 @@ export class SignUpFormComponent implements OnInit {
 
   /********** METHODS **********/
   checkSubmit(): void{
-    if (this.signUpForm.valid) { this.router.navigateByUrl('newPassword'); }
+    if (this.signUpForm.valid) { this.router.navigateByUrl(NEW_PASSWORD); }
     this.signUpForm.markAllAsTouched();
   }
   isFieldInvalid(fieldName: string): boolean{

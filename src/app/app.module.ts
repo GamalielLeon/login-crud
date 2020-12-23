@@ -11,6 +11,7 @@ import { ResetPasswordFormComponent } from './components/reset-password-form/res
 import { NewPasswordFormComponent } from './components/new-password-form/new-password-form.component';
 import { UserListComponent } from './components/user-list/user-list.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     LoginFormComponent,
     ResetPasswordFormComponent,
     NewPasswordFormComponent,
-    UserListComponent
+    UserListComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

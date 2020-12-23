@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-user-form',
@@ -23,7 +24,15 @@ export class UserFormComponent implements OnInit {
       role: ['General', Validators.required]
     });
   }
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    /* const obs = new Observable( observer => {
+      let i = 0;
+      setInterval( () => {
+        observer.next(i++);
+      }, 500);
+   } );
+    obs.subscribe( console.log ); */
+  }
 
   /********** METHODS **********/
   checkSubmit(): void{

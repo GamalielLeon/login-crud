@@ -1,5 +1,6 @@
 aside#loginAside>div.row>img {
     border-radius: 5vw;
+    width: 40%;
 }
 
 aside#loginAside ul {

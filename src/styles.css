@@ -1,9 +1,10 @@
 body {
-    background: url('assets/images/neorisBG4.jpg') no-repeat;
+    background: url('assets/images/bgImg1.jpg') no-repeat;
     background-position: center center;
     background-size: cover;
     background-attachment: fixed;
     background-color: #303030;
+    transition: background 0.5s linear;
 }
 
 div.row form>small {

@@ -146,6 +146,7 @@
             "element",
             "app",
             "kebab-case"
-        ]
+        ],
+        "no-bitwise": false
     }
 }

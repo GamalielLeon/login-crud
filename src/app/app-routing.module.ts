@@ -7,8 +7,10 @@ import { PopUpWindowComponent } from './components/pop-up-window/pop-up-window.c
 import { UserFormComponent } from './components/user-form/user-form.component';
 import { UserListComponent } from './components/user-list/user-list.component';
 import { ResetPasswordFormComponent } from './components/reset-password-form/reset-password-form.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 const routes: Routes = [
+  {path: 'home', component: NavbarComponent},
   {path: '', component: LoginFormComponent},
   {path: 'register', component: SignUpFormComponent},
   {path: 'newPassword', component: NewPasswordFormComponent},
@@ -17,7 +19,7 @@ const routes: Routes = [
   {path: 'usersList', component: UserListComponent},
   {path: 'usersList/addUser', component: UserFormComponent},
   {path: 'usersList/editUser', component: UserFormComponent},
-  {path: '**', pathMatch: 'full', redirectTo: ''}
+  {path: '**', pathMatch: 'full', redirectTo: 'home'}
 ];
 
 @NgModule({

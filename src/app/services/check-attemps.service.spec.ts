@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CheckAttempsService } from './check-attemps.service';
+import { CheckAttemptsService } from './check-attempts.service';
 
-describe('CheckAttempsService', () => {
-  let service: CheckAttempsService;
+describe('CheckAttemptsService', () => {
+  let service: CheckAttemptsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(CheckAttempsService);
+    service = TestBed.inject(CheckAttemptsService);
   });
 
   it('should be created', () => {

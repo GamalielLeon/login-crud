@@ -8,6 +8,7 @@ import { EMAIL_PATTERN, PASSWORD_LOGIN_PATTERN } from '../../constants/patterns'
 // Services
 import { CheckAttemptsService } from 'src/app/services/check-attempts.service';
 import { TokenService } from 'src/app/services/token.service';
+import { TokenModel } from '../../models/token.model';
 
 @Component({
   selector: 'app-login-form',
@@ -42,14 +43,14 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   }
   private subscribeTokenService(): Subscription {
     return this.tokenService.getToken(this.loginForm.value).subscribe(
-      (tokenData: any) => localStorage.setItem('token', tokenData.accessToken),
+      (tokenData: TokenModel) => localStorage.setItem('token', tokenData.accessToken),
       (error) => this.onErrorToken(),
       () => this.router.navigateByUrl(USERS_LIST)
       );
   }
   private onErrorToken(): void {
     this.loginForm.controls.password.setValue('');
-    this.checkAttemptsService.checkAttemptsEmail(this.loginForm.controls.email.value);
+    this.checkAttemptsService.checkIfEmailRegistered(this.loginForm.controls.email.value);
   }
   private checkIsUserEmailBlocked(): void {
     if (this.checkAttemptsService.isUserEmailBlocked(this.loginForm.controls.email.value)) {

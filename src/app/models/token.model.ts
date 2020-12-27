@@ -1,4 +1,6 @@
 export interface TokenModel{
-  email: string;
-  password: string;
+  accessToken: string;
+  tokenType: string;
+  expiresIn: string;
+  createdAt: string;
 }

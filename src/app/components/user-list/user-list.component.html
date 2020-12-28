@@ -1,18 +1,21 @@
-<section class="container">
-    <table class="table table-hover text-center table-light align-middle table-responsive">
-        <caption>New York City Marathon Results 2013</caption>
+<section class="container-fluid col-11 mt-5" id="usersTable">
+    <div class="row text-start mx-0 my-3">
+        <div class="col px-0">
+            <button class="btn btn-primary" (click)="true">
+                <span class="far fa-plus"></span> Agregar usuario
+            </button>
+        </div>
+    </div>
+
+    <table class="table table-hover text-center table-light table-responsive">
         <thead>
             <tr class="align-middle">
-                <th scope="col">Nombre</th>
-                <th scope="col">Apellidos</th>
-                <th scope="col">Correo electrónico</th>
-                <th scope="col">Rol</th>
-                <th scope="col">Estatus</th>
-                <th scope="col">
-                    <button class="btn btn-outline-primary border border-2 mx-3" (click)="true">
-                    <span class="far fa-edit"></span> Agregar usuario
-                </button>
-                </th>
+                <th scope="col" (click)="arrow('firstName', 0)">Nombre</th>
+                <th scope="col" (click)="arrow('lastName', 1)">Apellidos</th>
+                <th scope="col" (click)="arrow('email', 2)">Correo electrónico</th>
+                <th scope="col" (click)="arrow('role', 3)">Rol</th>
+                <th scope="col" (click)="arrow('active', 4)">Estatus</th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
@@ -23,10 +26,14 @@
                 <td>{{user.role}}</td>
                 <td>{{user.active}}</td>
                 <td>
-                    <button class="btn btn-outline-success border border-2" (click)="true"> <span class="far fa-edit"></span> </button>
-                    <button class="btn btn-outline-danger border border-2" (click)="true"> <span class="fas fa-trash"></span> </button>
+                    <span class="far fa-edit me-3 fa-lg text-success" (click)="f()"></span>
+                    <div class="form-check form-switch d-inline-block align-middle">
+                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked>
+                    </div>
                 </td>
             </tr>
         </tbody>
     </table>
+
+
 </section>

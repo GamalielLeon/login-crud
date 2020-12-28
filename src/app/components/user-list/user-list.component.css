@@ -1,3 +1,30 @@
+section>table {
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+}
+
+section>table>thead {
+    border-top: 5px #525f9b solid;
+}
+
+section>table th {
+    cursor: pointer;
+    background-color: #44ad56;
+}
+
+section>table th:hover {
+    background-color: rgba(68, 173, 86, 0.8);
+}
+
+section>table th.arrow-up::after {
+    content: '\25b4'
+}
+
+section>table th.arrow-down::after {
+    content: '\25be'
+}
+
 section>table>tbody>tr>td>button {
     margin: 1% 2%;
 }

@@ -10,9 +10,9 @@ import { TokenModel } from '../models/token.model';
   providedIn: 'root'
 })
 export class CheckAttemptsService {
+  private indexEmail: number = -1;
   private usersEmails: string[] = [];
   private attemptsPerEmail: number[] = [];
-  private indexEmail: number = -1;
   private emailsFromAPI: string[] = [];
   private subscriptions: Subscription = new Subscription();
   private login: LoginModel = {email: 'juan.chavez@neoris.com', password: '!Qazxsw2'};
@@ -23,12 +23,12 @@ export class CheckAttemptsService {
 
   private getEmailsFromAPI(): void {
     localStorage.clear();
-    const subscription = this.tokenService.getToken(this.login).subscribe(
+    const subscription: Subscription = this.tokenService.getToken(this.login).subscribe(
       (tokenResponse: TokenModel) => {localStorage.setItem('token', tokenResponse.accessToken); this.generateArrayOfEmails(); } );
     this.subscriptions.add(subscription);
   }
   private generateArrayOfEmails(): void{
-    const subscription = this.usersService.getUsers().subscribe(
+    const subscription: Subscription = this.usersService.getUsers().subscribe(
       (users: UserModel[]) => users.forEach( (user: UserModel) => this.emailsFromAPI.push(user.email)) );
     this.subscriptions.add(subscription);
   }
@@ -39,8 +39,8 @@ export class CheckAttemptsService {
     this.indexEmail = this.usersEmails.indexOf(userEmail);
   }
   private generateObserverPerUserBlocked(): void {
-    const newSubscription = new Observable(observer => {
-      const emailUser = this.usersEmails[this.indexEmail];
+    const newSubscription: Subscription = new Observable(observer => {
+      const emailUser: string = this.usersEmails[this.indexEmail];
       alert('Ha superado el máximo de intentos, intente de nuevo en 15 minutos.');
       setTimeout( () => { this.deleteUserEmailByEmail(emailUser); observer.complete(); }, 30000 );
     }).subscribe( () => newSubscription.unsubscribe() );

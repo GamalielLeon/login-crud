@@ -7,18 +7,20 @@ import { UserFormComponent } from './components/user-form/user-form.component';
 import { UserListComponent } from './components/user-list/user-list.component';
 import { ResetPasswordFormComponent } from './components/reset-password-form/reset-password-form.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { HOME, LOGIN, NEW_PASSWORD, RECOVER_PASSWORD, REGISTER, USERS_LIST, ADD_USER, EDIT_USER, OTHER } from './constants/paths';
+import { HOME, LOGIN, NEW_PASSWORD, RECOVER_PASSWORD, REGISTER, USERS_LIST, ADD_USER, EDIT_USER, OTHER, MAIN } from './constants/paths';
+import { HomeComponent } from './components/home/home.component';
 
 const routes: Routes = [
-  {path: HOME, component: NavbarComponent},
+  {path: MAIN, component: NavbarComponent},
   {path: LOGIN, component: LoginFormComponent},
   {path: REGISTER, component: SignUpFormComponent},
   {path: NEW_PASSWORD, component: NewPasswordFormComponent},
   {path: RECOVER_PASSWORD, component: ResetPasswordFormComponent},
+  {path: HOME, component: HomeComponent},
   {path: USERS_LIST, component: UserListComponent},
   {path: ADD_USER, component: UserFormComponent},
   {path: EDIT_USER, component: UserFormComponent},
-  {path: OTHER, pathMatch: 'full', redirectTo: 'home'}
+  {path: OTHER, pathMatch: 'full', redirectTo: 'main'}
 ];
 
 @NgModule({

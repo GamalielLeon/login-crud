@@ -9,6 +9,7 @@ import { EMAIL_PATTERN, PASSWORD_LOGIN_PATTERN } from '../../constants/patterns'
 import { CheckAttemptsService } from 'src/app/services/check-attempts.service';
 import { TokenService } from 'src/app/services/token.service';
 import { TokenModel } from '../../models/token.model';
+import { HOME } from '../../constants/paths';
 
 @Component({
   selector: 'app-login-form',
@@ -35,7 +36,6 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
     this.checkAttemptsService.deleteUserEmailByEmail(this.loginForm.controls.email.value);
   }
-
   /********** METHODS **********/
   checkSubmit(): void{
     if (this.loginForm.valid) { this.checkIsUserEmailBlocked(); }
@@ -45,12 +45,18 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     return this.tokenService.getToken(this.loginForm.value).subscribe(
       (tokenData: TokenModel) => localStorage.setItem('token', tokenData.accessToken),
       (error) => this.onErrorToken(),
-      () => this.router.navigateByUrl(USERS_LIST)
-      );
+      () => this.navigateByUserRole()
+    );
   }
   private onErrorToken(): void {
     this.loginForm.controls.password.setValue('');
     this.checkAttemptsService.checkIfEmailRegistered(this.loginForm.controls.email.value);
+  }
+  private navigateByUserRole(): void {
+    const token: any = localStorage.getItem('token');
+    const tokenDecrypted = JSON.parse(atob(token.split('.')[1]));
+    this.router.navigateByUrl(
+      tokenDecrypted[Object.keys(tokenDecrypted)[4]].toLowerCase() === 'admin' ? USERS_LIST : HOME);
   }
   private checkIsUserEmailBlocked(): void {
     if (this.checkAttemptsService.isUserEmailBlocked(this.loginForm.controls.email.value)) {
@@ -65,11 +71,9 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     const field = this.loginForm.controls[fieldName];
     return field.invalid && field.touched;
   }
-
   /********** GETTERS **********/
   getMessagePopUp = (): string => this.messagePopUp;
   getShowPopUp = (): boolean => this.showPopUp;
-
   /********** SETTERS **********/
   setMessagePopUp(message: string): void { this.messagePopUp = message; }
   setShowPopUp(showPopUp: boolean): void { this.showPopUp = showPopUp; }

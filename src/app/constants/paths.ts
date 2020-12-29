@@ -1,3 +1,4 @@
+export const MAIN: string = 'main';
 export const HOME: string = 'home';
 export const LOGIN: string = '';
 export const REGISTER: string = 'register';

@@ -19,6 +19,14 @@ export class UsersAPIService {
   private getTokenFromLocalStorage = (): string|null => localStorage.getItem('token');
   getUsers(): Observable<UserModel[]> {
     return this.http.get<ApiDataModel>(API_URL_USERS, {headers: this.generateHttpHeader()}).
-    pipe( map((apiData: ApiDataModel) => apiData.data) );
+pipe( map((apiData: ApiDataModel) => apiData.data) );
+  }
+  createUser(user: UserModel): Observable<UserModel> {
+    return this.http.post<UserModel>(`${API_URL_USERS}/${user.id}`, user, {headers: this.generateHttpHeader()});
+  }
+  updateUser(user: UserModel, status?: boolean): Observable<UserModel> {
+    const userTemp: UserModel = {...user};
+    if (arguments.length === 2) { userTemp.active = status; }
+    return this.http.put<UserModel>(`${API_URL_USERS}/${user.id}`, userTemp, {headers: this.generateHttpHeader()});
   }
 }

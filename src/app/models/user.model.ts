@@ -4,7 +4,7 @@ export interface UserModel{
   firstName: string;
   lastName: string;
   role: string;
-  active?: string;
+  active?: boolean;
   password?: string;
   createdAt?: string;
 }

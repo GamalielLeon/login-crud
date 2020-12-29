@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersAPIService } from 'src/app/services/users-api.service';
 import { UserModel } from '../../models/user.model';
+import { Router } from '@angular/router';
+import { ADD_USER, EDIT_USER } from '../../constants/paths';
 
 @Component({
   selector: 'app-user-list',
@@ -11,10 +13,9 @@ export class UserListComponent implements OnInit {
   private toggleTableHeaderArrow: boolean = false;
   usersFromAPI: UserModel[] = [];
 
-  constructor(private usersService: UsersAPIService) {
+  constructor(private usersService: UsersAPIService, private router: Router) {
     this.usersService.getUsers().subscribe( (users: UserModel[]) => this.usersFromAPI = users );
   }
-
   ngOnInit(): void { document.body.style.backgroundImage = 'url("")'; }
 
   private getTableHeaders(indexTh: number): any {
@@ -28,7 +29,7 @@ export class UserListComponent implements OnInit {
         - b[propToSort].toString().toLowerCase().charCodeAt(0) ) * sortDirection
     );
   }
-  arrow(prop: string, indexTh: number): void {
+  changeArrowTableHeader(prop: string, indexTh: number): void {
     this.toggleTableHeaderArrow = !this.toggleTableHeaderArrow;
     const th = this.getTableHeaders(indexTh);
     if (this.toggleTableHeaderArrow) {
@@ -39,8 +40,18 @@ export class UserListComponent implements OnInit {
       this.sortByColumn(prop, -1);
     }
   }
-
-  f(): void {
-    alert('editar');
+  addUser(): void{
+    console.log('add');
+    this.router.navigateByUrl(ADD_USER);
   }
+  editUser(index: number): void {
+    console.log(this.usersFromAPI[index]);
+    this.router.navigateByUrl(EDIT_USER);
+  }
+  changeStatus(index: number): void {
+    const userTemp = this.usersFromAPI[index];
+    this.usersService.updateUser(userTemp, !userTemp.active).subscribe();
+    userTemp.active = !userTemp.active;
+  }
+  getStatus = (index: number): boolean | void => this.usersFromAPI[index].active ? true : undefined;
 }

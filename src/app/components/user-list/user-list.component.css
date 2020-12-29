@@ -25,6 +25,7 @@ section>table th.arrow-down::after {
     content: '\25be'
 }
 
-section>table>tbody>tr>td>button {
-    margin: 1% 2%;
+section>table>tbody>tr>td span,
+input {
+    cursor: pointer;
 }

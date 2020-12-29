@@ -7,7 +7,7 @@
         </div>
     </div>
 
-    <table class="table table-hover text-center table-light table-responsive">
+    <table class="table table-hover text-center table-dark table-responsive">
         <thead>
             <tr class="align-middle">
                 <th scope="col" (click)="changeArrowTableHeader('firstName', 0)">Nombre</th>
@@ -19,7 +19,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let user of usersFromAPI; let i=index" class="align-self-center">
+            <tr *ngFor="let user of getUsersFromAPI(); let i=index" class="align-self-center">
                 <td>{{user.firstName}}</td>
                 <td>{{user.lastName}}</td>
                 <td>{{user.email}}</td>

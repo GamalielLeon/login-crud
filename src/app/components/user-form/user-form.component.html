@@ -9,22 +9,22 @@
                 <span class="input-group-text text-secondary" l><span class="fas fa-user fa-lg"></span></span>
                 <input type="email" class="form-control" id="emailFieldUser" placeholder="Correo electrónico" aria-describedby="emailFieldHelpUser" formControlName="email" [class.is-invalid]="isFieldInvalid('email')">
             </div>
-            <small *ngIf="isFieldInvalid('email')" id="emailFieldHelpUser" class="form-text text-danger">Wrong email!</small>
+            <small *ngIf="isFieldInvalid('email')" id="emailFieldHelpUser" class="form-text text-danger">El correo ingresado no cumple con el formato de correo, por favor ingrese un correo válido (ej. usuario@dominio.com).</small>
             <div class="input-group mt-3">
                 <span class="input-group-text text-secondary" l><span class="fas fa-pencil-alt fa-lg"></span></span>
                 <input type="text" class="form-control" id="nameFieldUser" placeholder="Nombre" aria-describedby="firstNameFieldHelpUser" formControlName="firstName" [class.is-invalid]="isFieldInvalid('firstName')">
             </div>
-            <small *ngIf="isFieldInvalid('firstName')" id="firstNameFieldHelpUser" class="form-text text-danger">Wrong first name!</small>
+            <small *ngIf="isFieldInvalid('firstName')" id="firstNameFieldHelpUser" class="form-text text-danger">Este campo solo admite caracteres alfanuméricos (entre 3 y 50)</small>
             <div class="input-group mt-3">
                 <span class="input-group-text text-secondary" l><span class="fas fa-pencil-alt fa-lg"></span></span>
                 <input type="text" class="form-control" id="lastNameFieldUser" placeholder="Apellidos" aria-describedby="lastNameFieldHelpUser" formControlName="lastName" [class.is-invalid]="isFieldInvalid('lastName')">
             </div>
-            <small *ngIf="isFieldInvalid('lastName')" id="lastNameFieldHelpUser" class="form-text text-danger">Wrong last name!</small>
+            <small *ngIf="isFieldInvalid('lastName')" id="lastNameFieldHelpUser" class="form-text text-danger">Este campo solo admite caracteres alfanuméricos (entre 3 y 50)</small>
             <div class="input-group mt-3">
                 <span class="input-group-text text-secondary"><span class="far fa-calendar-alt fa-lg"></span></span>
                 <input type="date" class="form-control" id="birthdateFieldUser" min="1950-01-01" [max]="getMaxDate()" aria-describedby="birthdateHelpFieldUser" formControlName="birthdate" [class.is-invalid]="isFieldInvalid('birthdate')">
             </div>
-            <small *ngIf="isFieldInvalid('birthdate')" id="birthdateHelpFieldUser" class="form-text text-danger">Wrong date!</small>
+            <small *ngIf="isFieldInvalid('birthdate')" id="birthdateHelpFieldUser" class="form-text text-danger"></small>
             <div class="input-group mt-3">
                 <span class="input-group-text text-secondary" l><span class="fas fa-users-cog fa-lg"></span></span>
                 <select class="form-select" id="roleFieldUser" formControlName="role" [class.is-invalid]="isFieldInvalid('role')">

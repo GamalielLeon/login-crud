@@ -11,12 +11,12 @@ import { ADD_USER, EDIT_USER } from '../../constants/paths';
 })
 export class UserListComponent implements OnInit {
   private toggleTableHeaderArrow: boolean = false;
-  usersFromAPI: UserModel[] = [];
+  private usersFromAPI: UserModel[] = [];
 
   constructor(private usersService: UsersAPIService, private router: Router) {
-    this.usersService.getUsers().subscribe( (users: UserModel[]) => this.usersFromAPI = users );
+    this.usersService.getUsers().subscribe( (usersFromAPI: UserModel[]) => this.setUsersFromAPI(usersFromAPI) );
   }
-  ngOnInit(): void { document.body.style.backgroundImage = 'url("")'; }
+  ngOnInit(): void { document.body.style.backgroundImage = 'url("assets/images/image6.jpg")'; }
 
   private getTableHeaders(indexTh: number): any {
     const ths = document.getElementsByTagName('th');
@@ -45,13 +45,19 @@ export class UserListComponent implements OnInit {
     this.router.navigateByUrl(ADD_USER);
   }
   editUser(index: number): void {
-    console.log(this.usersFromAPI[index]);
+    localStorage.setItem('userToEdit', JSON.stringify(this.usersFromAPI[index]));
     this.router.navigateByUrl(EDIT_USER);
   }
   changeStatus(index: number): void {
-    const userTemp = this.usersFromAPI[index];
+    const userTemp: UserModel = this.usersFromAPI[index];
     this.usersService.updateUser(userTemp, !userTemp.active).subscribe();
     userTemp.active = !userTemp.active;
   }
-  getStatus = (index: number): boolean | void => this.usersFromAPI[index].active ? true : undefined;
+  getStatus = (index: number): boolean|void => this.usersFromAPI[index].active ? true : undefined;
+
+  /********** GETTERS **********/
+  getUsersFromAPI = (): UserModel[] => this.usersFromAPI;
+
+  /********** SETTERS **********/
+  setUsersFromAPI(usersFromAPI: UserModel[]): void { this.usersFromAPI = usersFromAPI; }
 }

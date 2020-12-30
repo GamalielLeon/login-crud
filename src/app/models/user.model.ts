@@ -3,7 +3,8 @@ export interface UserModel{
   email: string;
   firstName: string;
   lastName: string;
-  role: string;
+  roleId: string;
+  birthDate: string;
   active?: boolean;
   password?: string;
   createdAt?: string;

@@ -56,7 +56,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     const token: any = localStorage.getItem('token');
     const tokenDecrypted = JSON.parse(atob(token.split('.')[1]));
     this.router.navigateByUrl(
-      tokenDecrypted[Object.keys(tokenDecrypted)[4]].toLowerCase() === 'admin' ? USERS_LIST : HOME);
+      tokenDecrypted[Object.keys(tokenDecrypted)[4]].
+      toLowerCase().split('.')[1] === 'admin' ? USERS_LIST : HOME);
   }
   private checkIsUserEmailBlocked(): void {
     if (this.checkAttemptsService.isUserEmailBlocked(this.loginForm.controls.email.value)) {

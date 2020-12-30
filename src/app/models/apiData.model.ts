@@ -1,8 +1,8 @@
 import { UserModel } from './user.model';
 export interface ApiDataModel{
-  pageNumber: string;
-  pageSize: string;
-  totalPages: string;
-  totalRecords: string;
+  pageNumber: number;
+  pageSize: number;
+  totalPages: number;
+  totalRecords: number;
   data: UserModel[];
 }

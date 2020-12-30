@@ -5,7 +5,7 @@ section#usersTable {
 section>table {
     border-radius: 5px;
     overflow: hidden;
-    box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.4);
 }
 
 section>table th {
@@ -33,4 +33,18 @@ section>table>tbody>tr>td {
 section>table>tbody>tr>td span,
 input {
     cursor: pointer;
+}
+
+section#usersTable ul>li>a.page-link {
+    color: #0b66b1;
+}
+
+section#usersTable ul>li>a.page-link:hover {
+    color: #190183;
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+section#usersTable ul>li>a.page-link:focus {
+    color: #190183;
+    background-color: rgba(255, 255, 255, 0.7);
 }

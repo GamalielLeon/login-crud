@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { UsersAPIService } from 'src/app/services/users-api.service';
 import { UserModel } from '../../models/user.model';
 import { Router } from '@angular/router';
-import { ADD_USER, EDIT_USER } from '../../constants/paths';
+import { ADD_USER, EDIT_USER, USERS_LIST } from '../../constants/paths';
+import { ApiDataModel } from 'src/app/models/apiData.model';
+import { RolesApiService } from '../../services/roles-api.service';
+import { RoleModel } from 'src/app/models/role.model';
 
 @Component({
   selector: 'app-user-list',
@@ -12,12 +15,32 @@ import { ADD_USER, EDIT_USER } from '../../constants/paths';
 export class UserListComponent implements OnInit {
   private toggleTableHeaderArrow: boolean = false;
   private usersFromAPI: UserModel[] = [];
+  private pagesData: ApiDataModel;
+  private pages: number[] = [];
+  private roles: any = {};
+  routePages: string = `/${USERS_LIST}`;
 
-  constructor(private usersService: UsersAPIService, private router: Router) {
-    this.usersService.getUsers().subscribe( (usersFromAPI: UserModel[]) => this.setUsersFromAPI(usersFromAPI) );
+  constructor(private usersService: UsersAPIService, private router: Router, private rolesService: RolesApiService) {
+    this.pagesData = {pageNumber: 1, pageSize: 10, totalPages: 1, totalRecords: 0, data: []};
+    this.usersService.getRecords(1).subscribe( (apiData: ApiDataModel) => this.setDataFromAPI(apiData) );
+    this.rolesService.getRoles().subscribe( (rolesFromAPI: RoleModel[]) => this.getRoleNamesAndRoleIds(rolesFromAPI) );
   }
   ngOnInit(): void { document.body.style.backgroundImage = 'url("assets/images/image6.jpg")'; }
 
+  private getRoleNamesAndRoleIds(rolesFromAPI: RoleModel[]): void {
+    rolesFromAPI.forEach( (role: RoleModel) => Object.defineProperty(
+      this.roles, role.id, {value: role.name.toUpperCase(), enumerable: true}) );
+  }
+  private setDataFromAPI(apiData: ApiDataModel): void {
+    this.setPagesData(apiData);
+    this.setUsersFromAPI(apiData.data);
+  }
+  private setPagesData(pagesData: ApiDataModel): void {
+    this.pagesData = pagesData;
+    let page: number = this.pagesData.totalPages;
+    this.pages.splice(0, this.pages.length);
+    for (; page > 0; page--) { this.pages.unshift(page); }
+  }
   private getTableHeaders(indexTh: number): any {
     const ths = document.getElementsByTagName('th');
     for (let i = ths.length - 1; i >= 0; i--) { ths[i].setAttribute('class', ''); }
@@ -28,6 +51,11 @@ export class UserListComponent implements OnInit {
       ( a[propToSort].toString().toLowerCase().charCodeAt(0)
         - b[propToSort].toString().toLowerCase().charCodeAt(0) ) * sortDirection
     );
+  }
+  private createNewRolesObject(): void {
+    const objTemp: any = {};
+    for (const roleId of Object.keys(this.roles)) { objTemp[this.roles[roleId]] = roleId; }
+    localStorage.setItem('roles', JSON.stringify(objTemp));
   }
   changeArrowTableHeader(prop: string, indexTh: number): void {
     this.toggleTableHeaderArrow = !this.toggleTableHeaderArrow;
@@ -41,11 +69,12 @@ export class UserListComponent implements OnInit {
     }
   }
   addUser(): void{
-    console.log('add');
+    this.createNewRolesObject();
     this.router.navigateByUrl(ADD_USER);
   }
   editUser(index: number): void {
     localStorage.setItem('userToEdit', JSON.stringify(this.usersFromAPI[index]));
+    this.createNewRolesObject();
     this.router.navigateByUrl(EDIT_USER);
   }
   changeStatus(index: number): void {
@@ -55,8 +84,14 @@ export class UserListComponent implements OnInit {
   }
   getStatus = (index: number): boolean|void => this.usersFromAPI[index].active ? true : undefined;
 
+  fun(page: number): void {
+    this.usersService.getRecords(page).subscribe( (apiData: ApiDataModel) => this.setDataFromAPI(apiData) );
+  }
+
   /********** GETTERS **********/
+  getPages = (): number[] => this.pages;
   getUsersFromAPI = (): UserModel[] => this.usersFromAPI;
+  getRol = (prop: any): string => this.roles[prop];
 
   /********** SETTERS **********/
   setUsersFromAPI(usersFromAPI: UserModel[]): void { this.usersFromAPI = usersFromAPI; }

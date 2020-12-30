@@ -22,16 +22,16 @@
             <small *ngIf="isFieldInvalid('lastName')" id="lastNameFieldHelpUser" class="form-text text-danger">Este campo solo admite caracteres alfanuméricos (entre 3 y 50)</small>
             <div class="input-group mt-3">
                 <span class="input-group-text text-secondary"><span class="far fa-calendar-alt fa-lg"></span></span>
-                <input type="date" class="form-control" id="birthdateFieldUser" min="1950-01-01" [max]="getMaxDate()" aria-describedby="birthdateHelpFieldUser" formControlName="birthdate" [class.is-invalid]="isFieldInvalid('birthdate')">
+                <input type="date" class="form-control" id="birthDateFieldUser" min="1950-01-01" [max]="getMaxDate()" aria-describedby="birthDateHelpFieldUser" formControlName="birthDate" [class.is-invalid]="isFieldInvalid('birthDate')">
             </div>
-            <small *ngIf="isFieldInvalid('birthdate')" id="birthdateHelpFieldUser" class="form-text text-danger"></small>
+            <small *ngIf="isFieldInvalid('birthDate')" id="birthdateHelpFieldUser" class="form-text text-danger"></small>
             <div class="input-group mt-3">
                 <span class="input-group-text text-secondary" l><span class="fas fa-users-cog fa-lg"></span></span>
-                <select class="form-select" id="roleFieldUser" formControlName="role" [class.is-invalid]="isFieldInvalid('role')">
+                <select class="form-select" id="roleFieldUser" formControlName="roleId" [class.is-invalid]="isFieldInvalid('roleId')">
                   <option *ngFor="let role of getRoles(); let i=index">{{role}}</option>
                 </select>
             </div>
-            <small *ngIf="isFieldInvalid('role')" id="lastNameFieldHelpUser" class="form-text text-danger">Not selected!</small>
+            <small *ngIf="isFieldInvalid('roleId')" id="lastNameFieldHelpUser" class="form-text text-danger">Not selected!</small>
             <div class="row my-3 justify-content-between mx-0">
                 <button type="button" class="btn btn-danger col-5" (click)="onCancel()">Cancelar</button>
                 <button type="submit" class="btn btn-primary col-5" [class.disabled]="userForm.invalid" [attr.data-bs-toggle]="userForm.invalid ? 'modal' : ''" data-bs-target="#popUpWindow">Guardar</button>

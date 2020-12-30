@@ -17,12 +17,13 @@ export class UsersAPIService {
     return new HttpHeaders({Authorization: `Bearer ${this.getTokenFromLocalStorage()}`, 'Content-Type': 'application/json'});
   }
   private getTokenFromLocalStorage = (): string|null => localStorage.getItem('token');
-  getUsers(): Observable<UserModel[]> {
-    return this.http.get<ApiDataModel>(API_URL_USERS, {headers: this.generateHttpHeader()}).
-    pipe( map((apiData: ApiDataModel) => apiData.data) );
+
+  getRecords(pageNumber: number = 1, pageSize: number = 10): Observable<ApiDataModel> {
+    return this.http.get<ApiDataModel>(
+      `${API_URL_USERS}?PageNumber=${pageNumber}&PageSize=${pageSize}`, {headers: this.generateHttpHeader()});
   }
   createUser(user: UserModel): Observable<UserModel> {
-    return this.http.post<UserModel>(`${API_URL_USERS}`, user, {headers: this.generateHttpHeader()});
+    return this.http.post<UserModel>(API_URL_USERS, user, {headers: this.generateHttpHeader()});
   }
   updateUser(user: UserModel, status?: boolean): Observable<UserModel> {
     const userTemp: UserModel = {...user};

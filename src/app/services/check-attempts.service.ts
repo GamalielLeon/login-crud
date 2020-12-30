@@ -5,6 +5,7 @@ import { UsersAPIService } from './users-api.service';
 import { UserModel } from '../models/user.model';
 import { LoginModel } from '../models/login.model';
 import { TokenModel } from '../models/token.model';
+import { ApiDataModel } from '../models/apiData.model';
 
 @Injectable({
   providedIn: 'root'
@@ -28,8 +29,8 @@ export class CheckAttemptsService {
     this.subscriptions.add(subscription);
   }
   private generateArrayOfEmails(): void{
-    const subscription: Subscription = this.usersService.getUsers().subscribe(
-      (users: UserModel[]) => users.forEach( (user: UserModel) => this.emailsFromAPI.push(user.email)) );
+    const subscription: Subscription = this.usersService.getRecords().subscribe(
+      (apiData: ApiDataModel) => apiData.data.forEach( (user: UserModel) => this.emailsFromAPI.push(user.email)) );
     this.subscriptions.add(subscription);
   }
   private updateUsersEmails(userEmail: string): void{

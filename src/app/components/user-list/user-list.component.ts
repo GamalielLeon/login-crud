@@ -82,16 +82,16 @@ export class UserListComponent implements OnInit {
     this.usersService.updateUser(userTemp, !userTemp.active).subscribe();
     userTemp.active = !userTemp.active;
   }
-  getStatus = (index: number): boolean|void => this.usersFromAPI[index].active ? true : undefined;
-
-  fun(page: number): void {
+  changePage(page: number): void {
     this.usersService.getRecords(page).subscribe( (apiData: ApiDataModel) => this.setDataFromAPI(apiData) );
   }
+  getStatus = (index: number): boolean|void => this.usersFromAPI[index].active ? true : undefined;
 
   /********** GETTERS **********/
   getPages = (): number[] => this.pages;
   getUsersFromAPI = (): UserModel[] => this.usersFromAPI;
   getRol = (prop: any): string => this.roles[prop];
+  getPagesData = (): ApiDataModel => this.pagesData;
 
   /********** SETTERS **********/
   setUsersFromAPI(usersFromAPI: UserModel[]): void { this.usersFromAPI = usersFromAPI; }

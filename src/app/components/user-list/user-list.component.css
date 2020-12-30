@@ -48,3 +48,8 @@ section#usersTable ul>li>a.page-link:focus {
     color: #190183;
     background-color: rgba(255, 255, 255, 0.7);
 }
+
+section#usersTable ul>li.active>a.page-link {
+    color: #FFFFFF;
+    background-color: #1c60b9;
+}

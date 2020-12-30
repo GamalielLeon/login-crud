@@ -24,7 +24,7 @@
                 <span class="input-group-text text-secondary"><span class="far fa-calendar-alt fa-lg"></span></span>
                 <input type="date" class="form-control" id="birthDateFieldUser" min="1950-01-01" [max]="getMaxDate()" aria-describedby="birthDateHelpFieldUser" formControlName="birthDate" [class.is-invalid]="isFieldInvalid('birthDate')">
             </div>
-            <small *ngIf="isFieldInvalid('birthDate')" id="birthdateHelpFieldUser" class="form-text text-danger"></small>
+            <small *ngIf="isFieldInvalid('birthDate')" id="birthdateHelpFieldUser" class="form-text text-danger">No se ha ingresado una fecha correcta</small>
             <div class="input-group mt-3">
                 <span class="input-group-text text-secondary" l><span class="fas fa-users-cog fa-lg"></span></span>
                 <select class="form-select" id="roleFieldUser" formControlName="roleId" [class.is-invalid]="isFieldInvalid('roleId')">

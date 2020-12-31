@@ -14,24 +14,24 @@
                 <span class="input-group-text text-secondary" l><span class="fas fa-pencil-alt fa-lg"></span></span>
                 <input type="text" class="form-control" id="nameFieldUser" placeholder="Nombre" aria-describedby="firstNameFieldHelpUser" formControlName="firstName" [class.is-invalid]="isFieldInvalid('firstName')">
             </div>
-            <small *ngIf="isFieldInvalid('firstName')" id="firstNameFieldHelpUser" class="form-text text-danger">Este campo solo admite caracteres alfanuméricos (entre 3 y 50)</small>
+            <small *ngIf="isFieldInvalid('firstName')" id="firstNameFieldHelpUser" class="form-text text-danger">Este campo solo admite caracteres alfanuméricos (entre 3 y 50).</small>
             <div class="input-group mt-3">
                 <span class="input-group-text text-secondary" l><span class="fas fa-pencil-alt fa-lg"></span></span>
                 <input type="text" class="form-control" id="lastNameFieldUser" placeholder="Apellidos" aria-describedby="lastNameFieldHelpUser" formControlName="lastName" [class.is-invalid]="isFieldInvalid('lastName')">
             </div>
-            <small *ngIf="isFieldInvalid('lastName')" id="lastNameFieldHelpUser" class="form-text text-danger">Este campo solo admite caracteres alfanuméricos (entre 3 y 50)</small>
+            <small *ngIf="isFieldInvalid('lastName')" id="lastNameFieldHelpUser" class="form-text text-danger">Este campo solo admite caracteres alfanuméricos (entre 3 y 50).</small>
             <div class="input-group mt-3">
                 <span class="input-group-text text-secondary"><span class="far fa-calendar-alt fa-lg"></span></span>
-                <input type="date" class="form-control" id="birthDateFieldUser" min="1950-01-01" [max]="getMaxDate()" aria-describedby="birthDateHelpFieldUser" formControlName="birthDate" [class.is-invalid]="isFieldInvalid('birthDate')">
+                <input type="date" class="form-control" id="birthDateFieldUser" [min]="getMinBirthDate()" [max]="getMaxBirthDate()" aria-describedby="birthDateHelpFieldUser" formControlName="birthDate" [class.is-invalid]="isFieldInvalid('birthDate')">
             </div>
-            <small *ngIf="isFieldInvalid('birthDate')" id="birthdateHelpFieldUser" class="form-text text-danger">No se ha ingresado una fecha correcta</small>
+            <small *ngIf="isFieldInvalid('birthDate')" id="birthdateHelpFieldUser" class="form-text text-danger">No se ha ingresado una fecha correcta.</small>
             <div class="input-group mt-3">
                 <span class="input-group-text text-secondary" l><span class="fas fa-users-cog fa-lg"></span></span>
                 <select class="form-select" id="roleFieldUser" formControlName="roleId" [class.is-invalid]="isFieldInvalid('roleId')">
-                  <option *ngFor="let role of getRoles(); let i=index">{{role}}</option>
+                  <option *ngFor="let role of getRoles()" let i="index">{{role}}</option>
                 </select>
             </div>
-            <small *ngIf="isFieldInvalid('roleId')" id="lastNameFieldHelpUser" class="form-text text-danger">Not selected!</small>
+            <small *ngIf="isFieldInvalid('roleId')" id="lastNameFieldHelpUser" class="form-text text-danger">No se seleccionó ninguna opción.</small>
             <div class="row my-3 justify-content-between mx-0">
                 <button type="button" class="btn btn-danger col-5" (click)="onCancel()">Cancelar</button>
                 <button type="submit" class="btn btn-primary col-5" [class.disabled]="userForm.invalid" [attr.data-bs-toggle]="userForm.invalid ? 'modal' : ''" data-bs-target="#popUpWindow">Guardar</button>

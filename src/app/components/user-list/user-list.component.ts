@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UsersAPIService } from 'src/app/services/users-api.service';
 import { UserModel } from '../../models/user.model';
 import { Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { RoleModel } from 'src/app/models/role.model';
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.css']
 })
-export class UserListComponent implements OnInit {
+export class UserListComponent implements OnInit, OnDestroy {
   private toggleTableHeaderArrow: boolean = false;
   private usersFromAPI: UserModel[] = [];
   private pagesData: ApiDataModel;
@@ -22,10 +22,16 @@ export class UserListComponent implements OnInit {
 
   constructor(private usersService: UsersAPIService, private router: Router, private rolesService: RolesApiService) {
     this.pagesData = {pageNumber: 1, pageSize: 10, totalPages: 1, totalRecords: 0, data: []};
-    this.usersService.getRecords(1).subscribe( (apiData: ApiDataModel) => this.setDataFromAPI(apiData) );
+    const page: number = +(localStorage.getItem('page') as any);
+    this.usersService.getRecords(page).subscribe( (apiData: ApiDataModel) => this.setDataFromAPI(apiData) );
     this.rolesService.getRoles().subscribe( (rolesFromAPI: RoleModel[]) => this.getRoleNamesAndRoleIds(rolesFromAPI) );
   }
-  ngOnInit(): void { document.body.style.backgroundImage = 'url("assets/images/image6.jpg")'; }
+  ngOnInit(): void {
+    document.body.style.backgroundImage = 'url("assets/images/image6.jpg")';
+    localStorage.removeItem('userToEdit');
+    localStorage.removeItem('roles');
+  }
+  ngOnDestroy(): void { localStorage.setItem('page', this.pagesData.pageNumber.toString()); }
 
   private getRoleNamesAndRoleIds(rolesFromAPI: RoleModel[]): void {
     rolesFromAPI.forEach( (role: RoleModel) => Object.defineProperty(

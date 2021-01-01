@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
-import { UsersAPIService } from 'src/app/services/users-api.service';
-import { LOGIN } from '../constants/paths';
+import { Injectable } from '@angular/core';
 import { catchError, map } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
+import { UsersAPIService } from 'src/app/services/users-api.service';
+import { LOGIN } from '../constants/paths';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +18,6 @@ export class AuthGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> {
-    return this.userService.getRecords(1).pipe( map(() => true), catchError(() => this.onFailedToken()) );
+    return this.userService.getUser().pipe( map(() => true), catchError(() => this.onFailedToken()) );
   }
 }

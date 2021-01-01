@@ -1,23 +1,23 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 // Constants
-import { USERS_LIST } from 'src/app/constants/paths';
 import { EMAIL_PATTERN, PASSWORD_LOGIN_PATTERN } from '../../constants/patterns';
 import { WRONG_FIELDS, WRONG_LOGIN } from 'src/app/constants/messages';
 import { PAGE, TOKEN } from 'src/app/constants/localStorage-items';
+import { USERS_LIST } from 'src/app/constants/paths';
 import { ADMIN } from '../../constants/roles';
 import { HOME } from '../../constants/paths';
 // Models
 import { TokenModel } from '../../models/token.model';
-import { UserModel } from '../../models/user.model';
 import { RoleModel } from 'src/app/models/role.model';
+import { UserModel } from '../../models/user.model';
 // Services
 import { CheckAttemptsService } from 'src/app/services/check-attempts.service';
-import { TokenService } from 'src/app/services/token.service';
 import { RolesApiService } from 'src/app/services/roles-api.service';
 import { UsersAPIService } from 'src/app/services/users-api.service';
+import { TokenService } from 'src/app/services/token.service';
 
 @Component({
   selector: 'app-login-form',
@@ -36,7 +36,6 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   constructor(private formBuilder: FormBuilder, private router: Router, private tokenService: TokenService,
               private checkAttemptsService: CheckAttemptsService, private rolesService: RolesApiService,
               private usersService: UsersAPIService) {
-    this.rolesService.getRoles().subscribe((roles: RoleModel[]) => this.roles = roles);
     this.loginForm = formBuilder.group({
       email: ['', [Validators.required, Validators.pattern(EMAIL_PATTERN)]],
       password: ['', [Validators.required, Validators.pattern(PASSWORD_LOGIN_PATTERN)]]
@@ -65,8 +64,10 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     this.checkAttemptsService.checkIfEmailRegistered(this.loginForm.controls.email.value);
   }
   private getCurrentUserRole(currentUser: UserModel): void {
-    const currentRole = this.roles.filter( (role: RoleModel) => role.id === currentUser.roleId )[0].name;
-    this.router.navigateByUrl( currentRole === ADMIN ? USERS_LIST : HOME );
+    this.rolesService.getRoles().subscribe((roles: RoleModel[]) => {
+      const currentRole = roles.filter( (role: RoleModel) => role.id === currentUser.roleId )[0].name;
+      this.router.navigateByUrl( currentRole === ADMIN ? USERS_LIST : HOME );
+    });
   }
   private navigateByUserRole(): void {
     this.usersService.getUser().subscribe( (user: UserModel) => this.getCurrentUserRole(user) );

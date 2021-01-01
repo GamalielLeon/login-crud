@@ -1,11 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { UsersAPIService } from 'src/app/services/users-api.service';
-import { UserModel } from '../../models/user.model';
 import { Router } from '@angular/router';
+// Constants
 import { ADD_USER, EDIT_USER, USERS_LIST } from '../../constants/paths';
-import { ApiDataModel } from 'src/app/models/apiData.model';
+import { USER_TO_EDIT, ROLES, PAGE } from '../../constants/localStorage-items';
+// Services
 import { RolesApiService } from '../../services/roles-api.service';
+import { UsersAPIService } from 'src/app/services/users-api.service';
+// Models
+import { UserModel } from '../../models/user.model';
 import { RoleModel } from 'src/app/models/role.model';
+import { ApiDataModel } from 'src/app/models/apiData.model';
 
 @Component({
   selector: 'app-user-list',
@@ -18,20 +22,22 @@ export class UserListComponent implements OnInit, OnDestroy {
   private pagesData: ApiDataModel;
   private pages: number[] = [];
   private roles: any = {};
+  private loading = true;
   routePages: string = `/${USERS_LIST}`;
 
   constructor(private usersService: UsersAPIService, private router: Router, private rolesService: RolesApiService) {
     this.pagesData = {pageNumber: 1, pageSize: 10, totalPages: 1, totalRecords: 0, data: []};
-    const page: number = +(localStorage.getItem('page') as any);
+    const page: number = +(localStorage.getItem(PAGE) as any);
     this.usersService.getRecords(page).subscribe( (apiData: ApiDataModel) => this.setDataFromAPI(apiData) );
-    this.rolesService.getRoles().subscribe( (rolesFromAPI: RoleModel[]) => this.getRoleNamesAndRoleIds(rolesFromAPI) );
+    this.rolesService.getRoles().subscribe((rolesFromAPI: RoleModel[]) =>
+      this.getRoleNamesAndRoleIds(rolesFromAPI), console.log , () => this.setLoading(false) );
   }
   ngOnInit(): void {
     document.body.style.backgroundImage = 'url("assets/images/image6.jpg")';
-    localStorage.removeItem('userToEdit');
-    localStorage.removeItem('roles');
+    localStorage.removeItem(USER_TO_EDIT);
+    localStorage.removeItem(ROLES);
   }
-  ngOnDestroy(): void { localStorage.setItem('page', this.pagesData.pageNumber.toString()); }
+  ngOnDestroy(): void { localStorage.setItem(PAGE, this.pagesData.pageNumber.toString()); }
 
   private getRoleNamesAndRoleIds(rolesFromAPI: RoleModel[]): void {
     rolesFromAPI.forEach( (role: RoleModel) => Object.defineProperty(
@@ -61,7 +67,7 @@ export class UserListComponent implements OnInit, OnDestroy {
   private createNewRolesObject(): void {
     const objTemp: any = {};
     for (const roleId of Object.keys(this.roles)) { objTemp[this.roles[roleId]] = roleId; }
-    localStorage.setItem('roles', JSON.stringify(objTemp));
+    localStorage.setItem(ROLES, JSON.stringify(objTemp));
   }
   changeArrowTableHeader(prop: string, indexTh: number): void {
     this.toggleTableHeaderArrow = !this.toggleTableHeaderArrow;
@@ -79,7 +85,7 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl(ADD_USER);
   }
   editUser(index: number): void {
-    localStorage.setItem('userToEdit', JSON.stringify(this.usersFromAPI[index]));
+    localStorage.setItem(USER_TO_EDIT, JSON.stringify(this.usersFromAPI[index]));
     this.createNewRolesObject();
     this.router.navigateByUrl(EDIT_USER);
   }
@@ -98,7 +104,9 @@ export class UserListComponent implements OnInit, OnDestroy {
   getUsersFromAPI = (): UserModel[] => this.usersFromAPI;
   getRol = (prop: any): string => this.roles[prop];
   getPagesData = (): ApiDataModel => this.pagesData;
+  getLoading = (): boolean => this.loading;
 
   /********** SETTERS **********/
   setUsersFromAPI(usersFromAPI: UserModel[]): void { this.usersFromAPI = usersFromAPI; }
+  setLoading(loading: boolean): void { this.loading = loading; }
 }

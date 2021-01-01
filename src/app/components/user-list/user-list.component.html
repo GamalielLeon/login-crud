@@ -1,5 +1,8 @@
 <section class="container-fluid col-11 mt-4" id="usersTable">
     <h3 class="col-7 mx-auto alert alert-primary text-center rounded-pill py-2">LISTADO DE USUARIOS REGISTRADOS</h3>
+
+    <app-loading *ngIf="getLoading()"></app-loading>
+
     <div class="row text-start mx-0 my-3">
         <div class="col px-0 text-end">
             <button class="btn btn-danger" (click)="addUser()">
@@ -8,7 +11,7 @@
         </div>
     </div>
 
-    <table class="table table-hover text-center table-dark table-responsive">
+    <table *ngIf="!getLoading()" class="table table-hover text-center table-dark table-responsive">
         <thead>
             <tr class="align-middle">
                 <th scope="col" (click)="changeArrowTableHeader('firstName', 0)">Nombre</th>

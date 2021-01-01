@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+// Constants
 import { NEW_PASSWORD } from 'src/app/constants/paths';
 import { EMAIL_PATTERN } from 'src/app/constants/patterns';
 
@@ -15,13 +16,12 @@ export class ResetPasswordFormComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private router: Router) {
     this.resetPasswordForm = formBuilder.group({
-      // Required, only admits alphanumerics and must have btw 6 to 12 characters.
       email: ['', [Validators.required, Validators.pattern(EMAIL_PATTERN)]],
     });
   }
-
   ngOnInit(): void { }
 
+  /********** METHODS **********/
   checkSubmit(): void{
     if (this.resetPasswordForm.valid) { this.router.navigateByUrl(NEW_PASSWORD); }
     this.resetPasswordForm.markAllAsTouched();
@@ -30,9 +30,7 @@ export class ResetPasswordFormComponent implements OnInit {
     const field = this.resetPasswordForm.controls[fieldName];
     return field.invalid && field.touched;
   }
-
   /********** GETTERS **********/
 
   /********** SETTERS **********/
-
 }

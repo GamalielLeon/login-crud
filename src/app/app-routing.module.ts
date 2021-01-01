@@ -9,6 +9,7 @@ import { ResetPasswordFormComponent } from './components/reset-password-form/res
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HOME, LOGIN, NEW_PASSWORD, RECOVER_PASSWORD, REGISTER, USERS_LIST, ADD_USER, EDIT_USER, OTHER, MAIN } from './constants/paths';
 import { HomeComponent } from './components/home/home.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {path: MAIN, component: NavbarComponent},
@@ -16,11 +17,11 @@ const routes: Routes = [
   {path: REGISTER, component: SignUpFormComponent},
   {path: NEW_PASSWORD, component: NewPasswordFormComponent},
   {path: RECOVER_PASSWORD, component: ResetPasswordFormComponent},
-  {path: HOME, component: HomeComponent},
-  {path: USERS_LIST, component: UserListComponent},
-  {path: ADD_USER, component: UserFormComponent},
-  {path: EDIT_USER, component: UserFormComponent},
-  {path: OTHER, pathMatch: 'full', redirectTo: 'main'}
+  {path: HOME, component: HomeComponent, canActivate: [AuthGuard]},
+  {path: USERS_LIST, component: UserListComponent, canActivate: [AuthGuard]},
+  {path: ADD_USER, component: UserFormComponent, canActivate: [AuthGuard]},
+  {path: EDIT_USER, component: UserFormComponent, canActivate: [AuthGuard]},
+  {path: OTHER, pathMatch: 'full', redirectTo: MAIN}
 ];
 
 @NgModule({

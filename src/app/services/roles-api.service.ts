@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { API_URL_ROLES } from '../constants/urls';
 import { RoleModel } from '../models/role.model';
 
@@ -13,7 +12,8 @@ export class RolesApiService {
   constructor(private http: HttpClient) { }
 
   private generateHttpHeader(): HttpHeaders {
-    return new HttpHeaders({Authorization: `Bearer ${this.getTokenFromLocalStorage()}`, 'Content-Type': 'application/json'});
+    return new HttpHeaders(
+      {Authorization: `Bearer ${this.getTokenFromLocalStorage()}`, 'Content-Type': 'application/json'});
   }
   private getTokenFromLocalStorage = (): string|null => localStorage.getItem('token');
 

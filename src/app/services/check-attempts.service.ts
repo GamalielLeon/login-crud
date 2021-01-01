@@ -1,11 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { TokenService } from 'src/app/services/token.service';
-import { UsersAPIService } from './users-api.service';
+// Constants
+import { FAIL_ATTEMPTS, WRONG_LOGIN } from '../constants/messages';
+import { TOKEN } from '../constants/localStorage-items';
+// Models
 import { UserModel } from '../models/user.model';
 import { LoginModel } from '../models/login.model';
 import { TokenModel } from '../models/token.model';
 import { ApiDataModel } from '../models/apiData.model';
+// Services
+import { TokenService } from 'src/app/services/token.service';
+import { UsersAPIService } from './users-api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,19 +18,19 @@ import { ApiDataModel } from '../models/apiData.model';
 export class CheckAttemptsService {
   private indexEmail: number = -1;
   private usersEmails: string[] = [];
-  private attemptsPerEmail: number[] = [];
   private emailsFromAPI: string[] = [];
+  private attemptsPerEmail: number[] = [];
   private subscriptions: Subscription = new Subscription();
   private login: LoginModel = {email: 'juan.chavez@neoris.com', password: '!Qazxsw2'};
 
   constructor(private tokenService: TokenService, private usersService: UsersAPIService) {
-    this.getEmailsFromAPI();
+    // this.getEmailsFromAPI();
   }
 
   private getEmailsFromAPI(): void {
     localStorage.clear();
     const subscription: Subscription = this.tokenService.getToken(this.login).subscribe(
-      (tokenResponse: TokenModel) => {localStorage.setItem('token', tokenResponse.accessToken); this.generateArrayOfEmails(); } );
+      (tokenResponse: TokenModel) => { localStorage.setItem(TOKEN, tokenResponse.accessToken); this.generateArrayOfEmails(); } );
     this.subscriptions.add(subscription);
   }
   private generateArrayOfEmails(): void{
@@ -42,7 +47,7 @@ export class CheckAttemptsService {
   private generateObserverPerUserBlocked(): void {
     const newSubscription: Subscription = new Observable(observer => {
       const emailUser: string = this.usersEmails[this.indexEmail];
-      alert('Ha superado el máximo de intentos, intente de nuevo en 15 minutos.');
+      alert(FAIL_ATTEMPTS);
       setTimeout( () => { this.deleteUserEmailByEmail(emailUser); observer.complete(); }, 30000 );
     }).subscribe( () => newSubscription.unsubscribe() );
   }
@@ -50,11 +55,11 @@ export class CheckAttemptsService {
     this.subscriptions.unsubscribe();
     this.updateUsersEmails(userEmail);
     if (this.attemptsPerEmail[this.indexEmail] >= 3) { this.generateObserverPerUserBlocked(); }
-    else { alert('¡Credenciales incorrectas!'); }
+    else { alert(WRONG_LOGIN); }
   }
   checkIfEmailRegistered(userEmail: string): void {
     if (this.emailsFromAPI.includes(userEmail)) { this.checkAttemptsPerEmail(userEmail); }
-    else { alert('¡Credenciales incorrectas!'); }
+    else { alert(WRONG_LOGIN); }
   }
   deleteUserEmailByEmail(userEmail: string): void{
     const index: number = this.usersEmails.indexOf(userEmail);

@@ -1,17 +1,17 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { USERS_LIST } from 'src/app/constants/paths';
-import { UsersAPIService } from 'src/app/services/users-api.service';
-import { EMAIL_PATTERN, NAME_PATTERN } from '../../constants/patterns';
-import { UserModel } from '../../models/user.model';
-import { getLimitsBirthDate } from '../../constants/functions';
-import { birthDateValidator } from 'src/app/custom-validators/user-form.validators';
 import { Observable } from 'rxjs';
-
-const messageUserCreated: string = 'Se ha enviado un correo electrónico al usuario para continuar con el registro';
-const messageUSerEdited: string = 'Se ha actualizado correctamente el registro.';
-const messageError: string = 'El correo ingresado ya está registrado';
+// Constants
+import { USERS_LIST } from 'src/app/constants/paths';
+import { getLimitsBirthDate } from '../../constants/functions';
+import { EMAIL_PATTERN, NAME_PATTERN } from '../../constants/patterns';
+import { ROLES, USER_TO_EDIT } from 'src/app/constants/localStorage-items';
+import { USER_EDITED, USER_CREATED, EMAIL_ERROR } from '../../constants/messages';
+// Services and Models
+import { birthDateValidator } from 'src/app/custom-validators/user-form.validators';
+import { UsersAPIService } from 'src/app/services/users-api.service';
+import { UserModel } from '../../models/user.model';
 
 @Component({
   selector: 'app-user-form',
@@ -52,11 +52,11 @@ export class UserFormComponent implements OnInit, OnDestroy {
     const observable: Observable<UserModel> = this.editUser ?
           this.userService.updateUser({id: this.userDataInput.id, ...this.userForm.value, roleId: roleID}) :
           this.userService.createUser({...this.userForm.value, roleId: roleID});
-    this.requestToServer(observable, this.editUser ? messageUSerEdited : messageUserCreated);
+    this.requestToServer(observable, this.editUser ? USER_EDITED : USER_CREATED);
   }
   private requestToServer(observable: Observable<UserModel>, message: string): void {
     observable.subscribe(
-      () => { alert(message); this.router.navigateByUrl(USERS_LIST); }, () => alert(messageError) );
+      () => { alert(message); this.router.navigateByUrl(USERS_LIST); }, () => alert(EMAIL_ERROR) );
   }
   checkSubmit(): void{
     if (this.userForm.valid) { this.createOrUpdate(); }
@@ -75,8 +75,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
 
   /********** SETTERS **********/
   private setUserDataInput(): void {
-    const getUserToEdit: string|null = localStorage.getItem('userToEdit');
-    this.rolesData = JSON.parse(localStorage.getItem('roles') as any);
+    const getUserToEdit: string|null = localStorage.getItem(USER_TO_EDIT);
+    this.rolesData = JSON.parse(localStorage.getItem(ROLES) as any);
     this.roles = Object.keys(this.rolesData).reverse();
     if (getUserToEdit) {
       this.userDataInput = JSON.parse(getUserToEdit);

@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+// Constants
+import { getLimitsBirthDate } from 'src/app/constants/functions';
 import { NEW_PASSWORD } from 'src/app/constants/paths';
 import { EMAIL_PATTERN, NAME_PATTERN } from 'src/app/constants/patterns';
+// Others
+import { birthDateValidator } from '../../custom-validators/user-form.validators';
 
 @Component({
   selector: 'app-sign-up-form',
@@ -15,11 +19,10 @@ export class SignUpFormComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private router: Router) {
     this.signUpForm = formBuilder.group({
-      // Required, only admits alphanumerics and must have btw 6 to 12 characters.
       email: ['', [Validators.required, Validators.pattern(EMAIL_PATTERN)]],
       firstName: ['', [Validators.required, Validators.pattern(NAME_PATTERN)]],
       lastName: ['', [Validators.required, Validators.pattern(NAME_PATTERN)]],
-      birthdate: ['']
+      birthDate: ['', [Validators.required, birthDateValidator]]
     });
   }
   ngOnInit(): void { }
@@ -33,13 +36,10 @@ export class SignUpFormComponent implements OnInit {
     const field = this.signUpForm.controls[fieldName];
     return field.invalid && field.touched;
   }
-  getMaxDate(): string{
-    const today = new Date();
-    return (today.getFullYear().toString() + '-' + (today.getMonth() + 1).toString() + '-' + today.getDate().toString());
-  }
+  getMinBirthDate = (): string => getLimitsBirthDate()[0];
+  getMaxBirthDate = (): string => getLimitsBirthDate()[1];
 
   /********** GETTERS **********/
 
   /********** SETTERS **********/
-
 }

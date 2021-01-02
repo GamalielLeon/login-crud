@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import * as XLSX from 'xlsx';
 // Constants
 import { ADD_USER, EDIT_USER, USERS_LIST, HOME } from '../../constants/paths';
 import { USER_TO_EDIT, ROLES, PAGE } from '../../constants/localStorage-items';
@@ -102,13 +103,22 @@ export class UserListComponent implements OnInit, OnDestroy {
   goHome(): void { this.router.navigateByUrl(HOME); }
   getStatus = (index: number): boolean|void => this.usersFromAPI[index].active ? true : undefined;
 
+  exportExcel(idTable: string): void {
+    const table = document.getElementById(idTable) as HTMLElement;
+    const workSheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(table);
+    for (let i = this.usersFromAPI.length - 1; i >= 0; i--) {
+      workSheet['F' + (i + 2)] = {t: 's', v: (this.usersFromAPI[i].active as boolean).toString()};
+    }
+    const workBook: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workBook, workSheet, 'Sheet1');
+    XLSX.writeFile(workBook, 'usersData.xlsx');
+  }
   /********** GETTERS **********/
   getPages = (): number[] => this.pages;
   getUsersFromAPI = (): UserModel[] => this.usersFromAPI;
   getRol = (prop: any): string => this.roles[prop];
   getPagesData = (): ApiDataModel => this.pagesData;
   getLoading = (): boolean => this.loading;
-
   /********** SETTERS **********/
   setUsersFromAPI(usersFromAPI: UserModel[]): void { this.usersFromAPI = usersFromAPI; }
   setLoading(loading: boolean): void { this.loading = loading; }

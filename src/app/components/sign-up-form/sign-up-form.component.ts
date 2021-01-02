@@ -38,13 +38,13 @@ export class SignUpFormComponent implements OnInit {
     });
   }
   ngOnInit(): void { }
-
   /********** METHODS **********/
   private generateRandomPassword(): string {
     const passwordTemp: string[] = Array.from(this.generateRandomNumber(1E14, 0.5, 0, 36));
     passwordTemp[4] = this.generateRandomNumber(25, 0, 10, 36).toUpperCase();
     passwordTemp[1] = this.generateRandomNumber(25, 0, 10, 36);
     passwordTemp[7] = this.generateRandomNumber(9, 0, 0, 10);
+    console.log(passwordTemp.join(''));
     return passwordTemp.join('');
   }
   private generateRandomNumber(amp: number, offset1: number, offset2: number, base: number): string {

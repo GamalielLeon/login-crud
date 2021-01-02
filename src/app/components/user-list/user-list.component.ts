@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 // Constants
-import { ADD_USER, EDIT_USER, USERS_LIST } from '../../constants/paths';
+import { ADD_USER, EDIT_USER, USERS_LIST, HOME } from '../../constants/paths';
 import { USER_TO_EDIT, ROLES, PAGE } from '../../constants/localStorage-items';
 // Services
 import { RolesApiService } from '../../services/roles-api.service';
@@ -99,6 +99,7 @@ export class UserListComponent implements OnInit, OnDestroy {
   changePage(page: number): void {
     this.usersService.getRecords(page).subscribe((apiData: ApiDataModel) => this.setDataFromAPI(apiData));
   }
+  goHome(): void { this.router.navigateByUrl(HOME); }
   getStatus = (index: number): boolean|void => this.usersFromAPI[index].active ? true : undefined;
 
   /********** GETTERS **********/

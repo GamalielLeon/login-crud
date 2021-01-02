@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { UserModel } from 'src/app/models/user.model';
 import { UsersAPIService } from 'src/app/services/users-api.service';
 
 @Component({
@@ -8,13 +7,14 @@ import { UsersAPIService } from 'src/app/services/users-api.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  name: string = 'Nombre completo del usuario';
+  private userName: string = '';
 
-  constructor() {
-    const token: any = localStorage.getItem('token');
-    const userData = Object.values( JSON.parse(atob(token.split('.')[1])) );
-    this.name = `${userData[1]} ${userData[2]}`;
+  constructor(private usersService: UsersAPIService) {
+    this.usersService.getUser().subscribe(user => this.userName = `${user.firstName} ${user.lastName}`);
   }
-  ngOnInit(): void { }
-
+  ngOnInit(): void { document.body.style.backgroundImage = 'url("assets/images/image3.jpg")'; }
+  /********** GETTERS **********/
+  getUserName = (): string => this.userName;
+  /********** SETTERS **********/
+  setUserName(userName: string): void { this.userName = userName; }
 }

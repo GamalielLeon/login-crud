@@ -3,7 +3,7 @@
 
     <app-loading *ngIf="getLoading()"></app-loading>
 
-    <div class="row text-start mx-0 my-3">
+    <div class="row mx-0 my-3">
         <div class="col px-0 text-end">
             <button class="btn btn-danger" (click)="addUser()">
                 <span class="far fa-plus"></span> Agregar usuario
@@ -52,5 +52,13 @@
                 <a class="page-link rounded-3 " [routerLink]="routePages" aria-disabled="false">Siguiente</a>
             </li>
         </ul>
+
+        <div class="row mx-0 my-3">
+            <div class="col px-0 text-end">
+                <button class="fw-bold btn btn-warning" (click)="goHome()">
+                  <span class="fas fa-home-lg"></span> &nbsp; Home
+              </button>
+            </div>
+        </div>
     </nav>
 </section>

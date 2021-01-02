@@ -26,7 +26,6 @@ import { TokenService } from 'src/app/services/token.service';
 })
 export class LoginFormComponent implements OnInit, OnDestroy {
   // Attributes
-  private roles: RoleModel[] = [];
   private showPopUp: boolean = true;
   private subscriptions: Subscription = new Subscription();
   private messagePopUp: string = WRONG_FIELDS;
@@ -55,7 +54,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   private subscribeTokenService(): Subscription {
     return this.tokenService.getToken(this.loginForm.value).subscribe(
       (tokenData: TokenModel) => localStorage.setItem(TOKEN, tokenData.accessToken),
-      (error) => this.onErrorToken(),
+      (error) => {console.log(error.error); this.onErrorToken(); },
       () => this.navigateByUserRole()
     );
   }
@@ -66,7 +65,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   private getCurrentUserRole(currentUser: UserModel): void {
     this.rolesService.getRoles().subscribe((roles: RoleModel[]) => {
       const currentRole = roles.filter( (role: RoleModel) => role.id === currentUser.roleId )[0].name;
-      this.router.navigateByUrl( currentRole === ADMIN ? USERS_LIST : HOME );
+      this.router.navigateByUrl(currentRole === ADMIN ? USERS_LIST : HOME);
     });
   }
   private navigateByUserRole(): void {

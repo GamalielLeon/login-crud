@@ -15,6 +15,7 @@ import { HomeComponent } from './components/home/home.component';
 // Guards
 import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
+import { CreateUpdateGuard } from './guards/create-update.guard';
 
 const routes: Routes = [
   {path: MAIN, component: NavbarComponent},
@@ -24,8 +25,8 @@ const routes: Routes = [
   {path: RECOVER_PASSWORD, component: ResetPasswordFormComponent},
   {path: HOME, component: HomeComponent, canActivate: [AuthGuard]},
   {path: USERS_LIST, component: UserListComponent, canActivate: [AuthGuard, AdminGuard]},
-  {path: ADD_USER, component: UserFormComponent, canActivate: [AuthGuard, AdminGuard]},
-  {path: EDIT_USER, component: UserFormComponent, canActivate: [AuthGuard, AdminGuard]},
+  {path: ADD_USER, component: UserFormComponent, canActivate: [AuthGuard, AdminGuard, CreateUpdateGuard]},
+  {path: EDIT_USER, component: UserFormComponent, canActivate: [AuthGuard, AdminGuard, CreateUpdateGuard]},
   {path: OTHER, pathMatch: 'full', redirectTo: MAIN}
 ];
 

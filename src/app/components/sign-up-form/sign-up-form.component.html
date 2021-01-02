@@ -24,7 +24,7 @@
                 <span class="input-group-text text-secondary"><span class="far fa-calendar-alt fa-lg"></span></span>
                 <input type="date" class="form-control" id="birthdateFieldSignUp" [min]="getMinBirthDate()" [max]="getMaxBirthDate()" aria-describedby="birthdateHelpFieldSignUp" formControlName="birthDate" [class.is-invalid]="isFieldInvalid('birthDate')">
             </div>
-            <small *ngIf="isFieldInvalid('birthDate')" id="birthdateHelpFieldSignUp" class="form-text text-danger"></small>
+            <small *ngIf="isFieldInvalid('birthDate')" id="birthdateHelpFieldSignUp" class="form-text text-danger">No se ha ingresado una fecha correcta.</small>
             <div class="input-group my-3">
                 <button type="submit" class="btn btn-primary col-12" [class.disabled]="signUpForm.invalid" [attr.data-bs-toggle]="signUpForm.invalid ? 'modal' : ''" data-bs-target="#popUpWindow">Continuar</button>
             </div>

@@ -27,7 +27,7 @@ export class UserListComponent implements OnInit, OnDestroy {
 
   constructor(private usersService: UsersAPIService, private router: Router, private rolesService: RolesApiService) {
     this.pagesData = {pageNumber: 1, pageSize: 10, totalPages: 1, totalRecords: 0, data: []};
-    const page: number = +(localStorage.getItem(PAGE) as any);
+    const page: number = +(localStorage.getItem(PAGE) as string);
     this.usersService.getRecords(page).subscribe( (apiData: ApiDataModel) => this.setDataFromAPI(apiData) );
     this.rolesService.getRoles().subscribe((rolesFromAPI: RoleModel[]) =>
       this.getRoleNamesAndRoleIds(rolesFromAPI), console.log , () => this.setLoading(false) );
@@ -37,8 +37,9 @@ export class UserListComponent implements OnInit, OnDestroy {
     localStorage.removeItem(USER_TO_EDIT);
     localStorage.removeItem(ROLES);
   }
-  ngOnDestroy(): void { localStorage.setItem(PAGE, this.pagesData.pageNumber.toString()); }
+  ngOnDestroy(): void { }
 
+  /********** METHODS **********/
   private getRoleNamesAndRoleIds(rolesFromAPI: RoleModel[]): void {
     rolesFromAPI.forEach( (role: RoleModel) => Object.defineProperty(
       this.roles, role.id, {value: role.name.toUpperCase(), enumerable: true}) );
@@ -46,6 +47,7 @@ export class UserListComponent implements OnInit, OnDestroy {
   private setDataFromAPI(apiData: ApiDataModel): void {
     this.setPagesData(apiData);
     this.setUsersFromAPI(apiData.data);
+    localStorage.setItem(PAGE, this.pagesData.pageNumber.toString());
   }
   private setPagesData(pagesData: ApiDataModel): void {
     this.pagesData = pagesData;
@@ -95,7 +97,7 @@ export class UserListComponent implements OnInit, OnDestroy {
     userTemp.active = !userTemp.active;
   }
   changePage(page: number): void {
-    this.usersService.getRecords(page).subscribe( (apiData: ApiDataModel) => this.setDataFromAPI(apiData) );
+    this.usersService.getRecords(page).subscribe((apiData: ApiDataModel) => this.setDataFromAPI(apiData));
   }
   getStatus = (index: number): boolean|void => this.usersFromAPI[index].active ? true : undefined;
 

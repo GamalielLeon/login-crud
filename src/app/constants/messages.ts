@@ -1,6 +1,6 @@
 export const USER_CREATED: string = 'Se ha enviado un correo electrónico al usuario para continuar con el registro.';
 export const USER_EDITED: string = 'Se ha actualizado correctamente el registro.';
-export const EMAIL_ERROR: string = 'El correo ingresado ya está registrado.';
+export const EMAIL_ERROR: string = 'El correo ingresado ya está registrado, favor de intentar con otro.';
 export const FAIL_ATTEMPTS: string = 'Ha superado el máximo de intentos, intente de nuevo en 15 minutos.';
 export const WRONG_FIELDS: string = 'Algunos campos no fueron llenados correctamente.';
 export const ERROR_FORMAT_PASSWORD: string = 'La contraseña ingresada no cumple con la estructura de al menos: 1 Mayúscula, 1 Minúscula y 1 Número.';

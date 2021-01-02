@@ -16,12 +16,13 @@ import { HomeComponent } from './components/home/home.component';
 import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
 import { CreateUpdateGuard } from './guards/create-update.guard';
+import { UserCreatedGuard } from './guards/user-created.guard';
 
 const routes: Routes = [
   {path: MAIN, component: NavbarComponent},
   {path: LOGIN, component: LoginFormComponent},
   {path: REGISTER, component: SignUpFormComponent},
-  {path: NEW_PASSWORD, component: NewPasswordFormComponent},
+  {path: NEW_PASSWORD, component: NewPasswordFormComponent, canActivate: [UserCreatedGuard]},
   {path: RECOVER_PASSWORD, component: ResetPasswordFormComponent},
   {path: HOME, component: HomeComponent, canActivate: [AuthGuard]},
   {path: USERS_LIST, component: UserListComponent, canActivate: [AuthGuard, AdminGuard]},

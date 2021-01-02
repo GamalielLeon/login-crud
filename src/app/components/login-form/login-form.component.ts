@@ -44,7 +44,6 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
     this.checkAttemptsService.deleteUserEmailByEmail(this.loginForm.controls.email.value);
-    localStorage.setItem(PAGE, '1');
   }
   /********** METHODS **********/
   checkSubmit(): void{

@@ -56,7 +56,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
   }
   private requestToServer(observable: Observable<UserModel>, message: string): void {
     observable.subscribe(
-      () => { alert(message); this.router.navigateByUrl(USERS_LIST); }, () => alert(EMAIL_ERROR) );
+      (resp) => { alert(message); this.router.navigateByUrl(USERS_LIST); }, (error) => alert(EMAIL_ERROR) );
   }
   checkSubmit(): void{
     if (this.userForm.valid) { this.createOrUpdate(); }

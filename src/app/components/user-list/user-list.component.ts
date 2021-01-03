@@ -22,8 +22,8 @@ export class UserListComponent implements OnInit, OnDestroy {
   private indexUserSelected: number = 0;
   private loading: boolean = true;
   private usersFromAPI: UserModel[] = [];
-  private pagesData: ApiDataModel;
   private pages: number[] = [];
+  private pagesData: ApiDataModel;
   private roles: any = {};
   routePages: string = `/${USERS_LIST}`;
 
@@ -120,6 +120,10 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.usersService.getRecords(page).subscribe(
       (apiData: ApiDataModel) => this.setDataFromAPI(apiData));
   }
+  nextPage(): void { this.changePage(++this.pagesData.pageNumber); }
+  previousPage(): void { this.changePage(--this.pagesData.pageNumber); }
+  fistPage(): void { this.changePage(this.pagesData.pageNumber = 1); }
+  lastPage(): void { this.changePage(this.pagesData.pageNumber = this.pagesData.totalPages); }
   goHome(): void { this.router.navigateByUrl(HOME); }
   getStatus = (index: number): boolean|void => this.usersFromAPI[index].active ? true : undefined;
 
@@ -134,7 +138,16 @@ export class UserListComponent implements OnInit, OnDestroy {
     XLSX.writeFile(workBook, 'usersData.xlsx');
   }
   /********** GETTERS **********/
-  getPages = (): number[] => this.pages;
+  getPages(): number[] {
+    const currentPage: number = this.pagesData.pageNumber;
+    let pagesToShow = this.pages.slice(this.pagesData.pageNumber - 2, this.pagesData.pageNumber + 1);
+    if ( currentPage === 1) {
+      pagesToShow = this.pages.slice(this.pagesData.pageNumber - 1, this.pagesData.pageNumber + 2);
+    } else if ( currentPage === this.pagesData.totalPages ) {
+      pagesToShow = this.pages.slice(this.pagesData.pageNumber - 3, this.pagesData.pageNumber);
+    }
+    return pagesToShow;
+  }
   getUsersFromAPI = (): UserModel[] => this.usersFromAPI;
   getRol = (prop: any): string => this.roles[prop];
   getPagesData = (): ApiDataModel => this.pagesData;

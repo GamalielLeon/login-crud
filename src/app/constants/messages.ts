@@ -9,3 +9,5 @@ export const UPDATE_PASSWORD_SUCCESS: string = '¡Contraseña creada con éxito!
 export const ERROR_PASSWORD: string = 'Se requieren como mínimo 8 caracteres.';
 export const PASSWORDS_MISMATCH: string = 'Las contraseñas no coinciden';
 export const WRONG_LOGIN: string = '¡Credenciales incorrectas!';
+export const WRONG_CREDENTIALS: string = 'InvalidCredentials';
+export const USER_BLOCKED: string = 'UserIsBlocked';

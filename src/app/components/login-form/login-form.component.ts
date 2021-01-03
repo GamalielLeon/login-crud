@@ -5,10 +5,9 @@ import { Subscription } from 'rxjs';
 // Constants
 import { EMAIL_PATTERN, PASSWORD_LOGIN_PATTERN } from '../../constants/patterns';
 import { WRONG_FIELDS, WRONG_LOGIN } from 'src/app/constants/messages';
-import { PAGE, TOKEN } from 'src/app/constants/localStorage-items';
-import { USERS_LIST } from 'src/app/constants/paths';
+import { TOKEN, ID_USER } from 'src/app/constants/localStorage-items';
+import { USERS_LIST, HOME } from 'src/app/constants/paths';
 import { ADMIN } from '../../constants/roles';
-import { HOME } from '../../constants/paths';
 // Models
 import { TokenModel } from '../../models/token.model';
 import { RoleModel } from 'src/app/models/role.model';
@@ -39,6 +38,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       email: ['', [Validators.required, Validators.pattern(EMAIL_PATTERN)]],
       password: ['', [Validators.required, Validators.pattern(PASSWORD_LOGIN_PATTERN)]]
     });
+    localStorage.clear();
   }
   ngOnInit(): void { document.body.style.backgroundImage = 'url("assets/images/bgImg0.jpg")'; }
   ngOnDestroy(): void {
@@ -53,7 +53,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   private subscribeTokenService(): Subscription {
     return this.tokenService.getToken(this.loginForm.value).subscribe(
       (tokenData: TokenModel) => localStorage.setItem(TOKEN, tokenData.accessToken),
-      (error) => {console.log(error.error); this.onErrorToken(); },
+      (error) => { console.log(error.error); this.onErrorToken(); },
       () => this.navigateByUserRole()
     );
   }
@@ -63,6 +63,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   }
   private getCurrentUserRole(currentUser: UserModel): void {
     this.rolesService.getRoles().subscribe((roles: RoleModel[]) => {
+      localStorage.setItem(ID_USER, currentUser.id as string);
       const currentRole = roles.filter( (role: RoleModel) => role.id === currentUser.roleId )[0].name;
       this.router.navigateByUrl(currentRole === ADMIN ? USERS_LIST : HOME);
     });

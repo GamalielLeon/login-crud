@@ -1,36 +1,36 @@
-section#usersTable {
+section#usersTable>div#divTable {
     overflow: auto;
 }
 
-section>table {
+section#usersTable table {
     border-radius: 5px;
     overflow: hidden;
     box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.4);
 }
 
-section>table th {
+section#usersTable table th {
     cursor: pointer;
     background-color: #44ad56;
 }
 
-section>table th:hover {
+section#usersTable table th:hover {
     background-color: rgba(68, 173, 86, 0.8);
 }
 
-section>table th.arrow-up::after {
+section#usersTable table th.arrow-up::after {
     content: '\25b4'
 }
 
-section>table th.arrow-down::after {
+section#usersTable table th.arrow-down::after {
     content: '\25be'
 }
 
-section>table>tbody>tr>td {
+section#usersTable table>tbody>tr>td {
     color: #FFFFFF;
     background-color: rgba(0, 0, 0, 0.8);
 }
 
-section>table>tbody>tr>td span,
+section#usersTable table>tbody>tr>td span,
 input {
     cursor: pointer;
 }

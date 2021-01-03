@@ -1,70 +1,92 @@
 <section class="container-fluid col-11 mt-4" id="usersTable">
-    <h3 class="col-7 mx-auto alert alert-primary text-center rounded-pill py-2">LISTADO DE USUARIOS REGISTRADOS</h3>
+    <div class="d-flex">
+        <h3 class="mx-auto alert alert-primary text-center rounded-pill py-2 px-4">LISTADO DE USUARIOS REGISTRADOS</h3>
+    </div>
 
     <app-loading *ngIf="getLoading()"></app-loading>
 
     <div *ngIf="!getLoading()" class="row mx-0 my-3">
-        <div class="col px-0 text-end">
-            <button class="btn btn-primary float-start" (click)="exportExcel('usersListCurrentPage')">
+        <div class="d-flex justify-content-between px-0 text-end">
+            <button class="btn btn-primary me-2 fs-5" (click)="exportExcel('usersListCurrentPage')">
                 <span>Exportar a Excel &nbsp;<span class="fas fa-download fa-lg"></span></span>
             </button>
-            <button class="btn btn-danger" (click)="addUser()">
+            <button class="btn btn-danger ms-2 fs-5" (click)="addUser()">
                 <span>Agregar usuario &nbsp;<span class="fas fa-user-plus fa-lg"></span></span>
             </button>
         </div>
     </div>
 
-    <table id="usersListCurrentPage" *ngIf="!getLoading()" class="table table-hover text-center table-dark table-responsive">
-        <thead>
-            <tr class="align-middle">
-                <th scope="col" (click)="changeArrowTableHeader('firstName', 0)">Nombre</th>
-                <th scope="col" (click)="changeArrowTableHeader('lastName', 1)">Apellidos</th>
-                <th scope="col" (click)="changeArrowTableHeader('email', 2)">Correo electrónico</th>
-                <th scope="col" (click)="changeArrowTableHeader('birthDate', 3)">Fecha de nacimiento</th>
-                <th scope="col" (click)="changeArrowTableHeader('roleId', 4)">Rol</th>
-                <th scope="col" (click)="changeArrowTableHeader('active', 5)">Estatus</th>
-                <th scope="col"></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let user of getUsersFromAPI(); let i=index" class="align-self-center">
-                <td>{{user.firstName}}</td>
-                <td>{{user.lastName}}</td>
-                <td>{{user.email}}</td>
-                <td>{{user.birthDate.split('T')[0]}}</td>
-                <td>{{getRol(user.roleId)}}</td>
-                <td class="active-column">
-                    <div class="form-check form-switch d-inline-block align-middle">
-                        <input [id]="'userStatus' + i" data-bs-toggle="tooltip" data-bs-placement="bottom" [title]="user.active ? 'Desactivar': 'Reactivar'" class="form-check-input border-0" [ngClass]="user.active ? 'bg-success': 'bg-secondary'" type="checkbox" (click)="createButtonTempHTML(i)"
-                            [attr.checked]="getStatus(i)">
-                    </div>
-                </td>
-                <td> <span class="fas fa-edit me-3 fa-lg text-primary" (click)="editUser(i)"></span> </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="d-flex my-4" id="divTable">
+        <table id="usersListCurrentPage" *ngIf="!getLoading()" class="table table-hover text-center table-dark table-responsive">
+            <thead>
+                <tr class="align-middle">
+                    <th scope="col" (click)="changeArrowTableHeader('firstName', 0)">Nombre</th>
+                    <th scope="col" (click)="changeArrowTableHeader('lastName', 1)">Apellidos</th>
+                    <th scope="col" (click)="changeArrowTableHeader('email', 2)">Correo electrónico</th>
+                    <th scope="col" (click)="changeArrowTableHeader('birthDate', 3)">Fecha de nacimiento</th>
+                    <th scope="col" (click)="changeArrowTableHeader('roleId', 4)">Rol</th>
+                    <th scope="col" (click)="changeArrowTableHeader('active', 5)">Estatus</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let user of getUsersFromAPI(); let i=index" class="align-self-center">
+                    <td>{{user.firstName}}</td>
+                    <td>{{user.lastName}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.birthDate.split('T')[0]}}</td>
+                    <td>{{getRol(user.roleId)}}</td>
+                    <td class="active-column">
+                        <div class="form-check form-switch d-inline-block align-middle">
+                            <input [id]="'userStatus' + i" data-bs-toggle="tooltip" data-bs-placement="bottom" [title]="user.active ? 'Desactivar': 'Reactivar'" class="form-check-input border-0" [ngClass]="user.active ? 'bg-success': 'bg-secondary'" type="checkbox" (click)="createButtonTempHTML(i)"
+                                [attr.checked]="getStatus(i)">
+                        </div>
+                    </td>
+                    <td> <span class="fas fa-edit me-3 fa-lg text-primary" (click)="editUser(i)"></span> </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
 
     <app-pop-up-window [message]="'¿Confirmar operación?'" [staticModal]="true" [iconClass]="'far fa-exclamation-circle fa-6x text-primary'" (acceptOrCancel)="changeStatus($event)"></app-pop-up-window>
 
-    <nav *ngIf="!getLoading()" aria-label="Page navigation">
-        <ul class="pagination justify-content-center">
-            <li class="page-item disabled mx-1">
-                <a class="page-link rounded-3" [routerLink]="routePages" tabindex="-1" aria-disabled="true">Anterior</a>
-            </li>
-            <li *ngFor="let page of getPages()" class="page-item mx-1" [class.active]="page===getPagesData().pageNumber">
-                <a class="page-link rounded-3" [routerLink]="routePages" (click)=changePage(page)>{{page}}</a>
-            </li>
-            <li class="page-item mx-1">
-                <a class="page-link rounded-3 " [routerLink]="routePages" aria-disabled="false">Siguiente</a>
-            </li>
-        </ul>
-    </nav>
+    <div class="d-flex justify-content-around">
+        <nav *ngIf="!getLoading()" aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                <li class="page-item mx-1 d-none d-sm-block" [class.disabled]="getPagesData().pageNumber === 1">
+                    <a class="page-link rounded-3" [class.text-muted]="getPagesData().pageNumber === 1" (click)="fistPage()" [routerLink]="routePages" [tabindex]="getPagesData().pageNumber === 1 ? -1 : 0" [attr.aria-disabled]="getPagesData().pageNumber === 1">
+                        <span class="fas fa-chevron-double-left"></span>
+                    </a>
+                </li>
+                <li class="page-item mx-1" [class.disabled]="getPagesData().pageNumber === 1">
+                    <a class="page-link rounded-3" [class.text-muted]="getPagesData().pageNumber === 1" (click)="previousPage()" [routerLink]="routePages" [tabindex]="getPagesData().pageNumber === 1 ? -1 : 0" [attr.aria-disabled]="getPagesData().pageNumber === 1">
+                        <span class="fas fa-chevron-left"></span>
+                    </a>
+                </li>
+                <li *ngFor="let page of getPages()" class="page-item mx-1" [class.active]="page===getPagesData().pageNumber">
+                    <a class="page-link rounded-3" [routerLink]="routePages" (click)=changePage(page)>{{page}}</a>
+                </li>
+                <li class="page-item mx-1" [class.disabled]="getPagesData().pageNumber === getPagesData().totalPages">
+                    <a class="page-link rounded-3" [class.text-muted]="getPagesData().pageNumber === getPagesData().totalPages" (click)="nextPage()" [routerLink]="routePages" [tabindex]="getPagesData().pageNumber === getPagesData().totalPages ? -1 : 0" [attr.aria-disabled]="getPagesData().pageNumber === getPagesData().totalPages">
+                        <span class="fas fa-chevron-right"></span>
+                    </a>
+                </li>
+                <li class="page-item mx-1 d-none d-sm-block" [class.disabled]="getPagesData().pageNumber === getPagesData().totalPages">
+                    <a class="page-link rounded-3" [class.text-muted]="getPagesData().pageNumber === getPagesData().totalPages" (click)="lastPage()" [routerLink]="routePages" [tabindex]="getPagesData().pageNumber === getPagesData().totalPages ? -1 : 0" [attr.aria-disabled]="getPagesData().pageNumber === getPagesData().totalPages">
+                        <span class="fas fa-chevron-double-right"></span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 
-    <div class="row mx-0 my-3">
+    <div class="row mx-0 my-2">
         <div class="col px-0 text-center">
-            <button class="fw-bold btn btn-warning" (click)="goHome()">
-            <span class="fas fa-home-lg"></span> &nbsp; Home
-        </button>
+            <button class="fw-bold btn btn-warning fs-5" (click)="goHome()">
+                <span class="fas fa-home-lg"></span> Página de inicio
+            </button>
         </div>
     </div>
 </section>

@@ -3,10 +3,13 @@
 
     <app-loading *ngIf="getLoading()"></app-loading>
 
-    <div class="row mx-0 my-3">
+    <div *ngIf="!getLoading()" class="row mx-0 my-3">
         <div class="col px-0 text-end">
+            <button class="btn btn-primary float-start" (click)="exportExcel('usersListCurrentPage')">
+                <span>Exportar a Excel &nbsp;<span class="fas fa-download fa-lg"></span></span>
+            </button>
             <button class="btn btn-danger" (click)="addUser()">
-                <span class="far fa-plus"></span> Agregar usuario
+                <span>Agregar usuario &nbsp;<span class="fas fa-user-plus fa-lg"></span></span>
             </button>
         </div>
     </div>
@@ -32,7 +35,8 @@
                 <td>{{getRol(user.roleId)}}</td>
                 <td class="active-column">
                     <div class="form-check form-switch d-inline-block align-middle">
-                        <input class="form-check-input border-0" [ngClass]="user.active ? 'bg-success': 'bg-secondary'" type="checkbox" (click)="changeStatus(i)" [attr.checked]="getStatus(i)">
+                        <input [id]="'userStatus' + i" data-bs-toggle="tooltip" data-bs-placement="bottom" [title]="user.active ? 'Desactivar': 'Reactivar'" class="form-check-input border-0" [ngClass]="user.active ? 'bg-success': 'bg-secondary'" type="checkbox" (click)="createButtonTempHTML(i)"
+                            [attr.checked]="getStatus(i)">
                     </div>
                 </td>
                 <td> <span class="fas fa-edit me-3 fa-lg text-primary" (click)="editUser(i)"></span> </td>
@@ -40,11 +44,9 @@
         </tbody>
     </table>
 
-    <button class="btn btn-primary" (click)="exportExcel('usersListCurrentPage')">
-      Export Table Data To Excel File
-    </button>
+    <app-pop-up-window [message]="'¿Confirmar operación?'" [staticModal]="true" [iconClass]="'far fa-exclamation-circle fa-6x text-primary'" (acceptOrCancel)="changeStatus($event)"></app-pop-up-window>
 
-    <nav aria-label="Page navigation">
+    <nav *ngIf="!getLoading()" aria-label="Page navigation">
         <ul class="pagination justify-content-center">
             <li class="page-item disabled mx-1">
                 <a class="page-link rounded-3" [routerLink]="routePages" tabindex="-1" aria-disabled="true">Anterior</a>
@@ -56,13 +58,13 @@
                 <a class="page-link rounded-3 " [routerLink]="routePages" aria-disabled="false">Siguiente</a>
             </li>
         </ul>
-
-        <div class="row mx-0 my-3">
-            <div class="col px-0 text-end">
-                <button class="fw-bold btn btn-warning" (click)="goHome()">
-                  <span class="fas fa-home-lg"></span> &nbsp; Home
-              </button>
-            </div>
-        </div>
     </nav>
+
+    <div class="row mx-0 my-3">
+        <div class="col px-0 text-center">
+            <button class="fw-bold btn btn-warning" (click)="goHome()">
+            <span class="fas fa-home-lg"></span> &nbsp; Home
+        </button>
+        </div>
+    </div>
 </section>

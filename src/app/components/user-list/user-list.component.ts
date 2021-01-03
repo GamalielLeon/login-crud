@@ -19,19 +19,24 @@ import { ApiDataModel } from 'src/app/models/apiData.model';
 })
 export class UserListComponent implements OnInit, OnDestroy {
   private toggleTableHeaderArrow: boolean = false;
+  private indexUserSelected: number = 0;
+  private loading: boolean = true;
   private usersFromAPI: UserModel[] = [];
   private pagesData: ApiDataModel;
   private pages: number[] = [];
   private roles: any = {};
-  private loading = true;
   routePages: string = `/${USERS_LIST}`;
 
-  constructor(private usersService: UsersAPIService, private router: Router, private rolesService: RolesApiService) {
+  constructor(private usersService: UsersAPIService, private router: Router,
+              private rolesService: RolesApiService) {
     this.pagesData = {pageNumber: 1, pageSize: 10, totalPages: 1, totalRecords: 0, data: []};
     const page: number = +(localStorage.getItem(PAGE) as string);
-    this.usersService.getRecords(page).subscribe( (apiData: ApiDataModel) => this.setDataFromAPI(apiData) );
-    this.rolesService.getRoles().subscribe((rolesFromAPI: RoleModel[]) =>
-      this.getRoleNamesAndRoleIds(rolesFromAPI), console.log , () => this.setLoading(false) );
+    this.usersService.getRecords(page).subscribe(
+      (apiData: ApiDataModel) => this.setDataFromAPI(apiData) );
+    this.rolesService.getRoles().subscribe( (rolesFromAPI: RoleModel[]) => {
+      this.getRoleNamesAndRoleIds(rolesFromAPI);
+      this.setLoading(false);
+    });
   }
   ngOnInit(): void {
     document.body.style.backgroundImage = 'url("assets/images/image6.jpg")';
@@ -58,7 +63,7 @@ export class UserListComponent implements OnInit, OnDestroy {
   }
   private getTableHeaders(indexTh: number): any {
     const ths = document.getElementsByTagName('th');
-    for (let i = ths.length - 1; i >= 0; i--) { ths[i].setAttribute('class', ''); }
+    for (let i = ths.length - 1; i >= 0; i--) { ths[i].removeAttribute('class'); }
     return ths[indexTh];
   }
   private sortByColumn(propToSort: string, sortDirection: number): void {
@@ -92,21 +97,36 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.createNewRolesObject();
     this.router.navigateByUrl(EDIT_USER);
   }
-  changeStatus(index: number): void {
-    const userTemp: UserModel = this.usersFromAPI[index];
-    this.usersService.updateUser(userTemp, !userTemp.active).subscribe();
-    userTemp.active = !userTemp.active;
+  createButtonTempHTML(index: number): void {
+    this.indexUserSelected = index;
+    const sectionHTMLTemp: HTMLElement = document.getElementById('usersTable') as HTMLElement;
+    const buttonHTMLTemp: HTMLElement = document.createElement('button');
+    buttonHTMLTemp.setAttribute('data-bs-target', '#popUpWindow');
+    buttonHTMLTemp.setAttribute('data-bs-toggle', 'modal');
+    buttonHTMLTemp.setAttribute('type', 'button');
+    sectionHTMLTemp.appendChild(buttonHTMLTemp);
+    buttonHTMLTemp.click();
+    sectionHTMLTemp.removeChild(buttonHTMLTemp);
+  }
+  changeStatus(acceptChange: boolean): void {
+    if (acceptChange) {
+      const userTemp: UserModel = this.usersFromAPI[this.indexUserSelected];
+      this.usersService.updateUser(userTemp, !userTemp.active).subscribe();
+      userTemp.active = !userTemp.active;
+    }
+    else { (document.getElementById(`userStatus${this.indexUserSelected}`) as HTMLElement).click(); }
   }
   changePage(page: number): void {
-    this.usersService.getRecords(page).subscribe((apiData: ApiDataModel) => this.setDataFromAPI(apiData));
+    this.usersService.getRecords(page).subscribe(
+      (apiData: ApiDataModel) => this.setDataFromAPI(apiData));
   }
   goHome(): void { this.router.navigateByUrl(HOME); }
   getStatus = (index: number): boolean|void => this.usersFromAPI[index].active ? true : undefined;
 
   exportExcel(idTable: string): void {
-    const table = document.getElementById(idTable) as HTMLElement;
+    const table: HTMLElement = document.getElementById(idTable) as HTMLElement;
     const workSheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(table);
-    for (let i = this.usersFromAPI.length - 1; i >= 0; i--) {
+    for (let i: number = this.usersFromAPI.length - 1; i >= 0; i--) {
       workSheet['F' + (i + 2)] = {t: 's', v: (this.usersFromAPI[i].active as boolean).toString()};
     }
     const workBook: XLSX.WorkBook = XLSX.utils.book_new();

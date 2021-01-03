@@ -3,8 +3,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 // Constants
+import { FAIL_ATTEMPTS, WRONG_FIELDS, WRONG_LOGIN, USER_BLOCKED } from 'src/app/constants/messages';
 import { EMAIL_PATTERN, PASSWORD_LOGIN_PATTERN } from '../../constants/patterns';
-import { WRONG_FIELDS, WRONG_LOGIN } from 'src/app/constants/messages';
 import { TOKEN, ID_USER } from 'src/app/constants/localStorage-items';
 import { USERS_LIST, HOME } from 'src/app/constants/paths';
 import { ADMIN } from '../../constants/roles';
@@ -43,7 +43,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   ngOnInit(): void { document.body.style.backgroundImage = 'url("assets/images/bgImg0.jpg")'; }
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
-    this.checkAttemptsService.deleteUserEmailByEmail(this.loginForm.controls.email.value);
+    this.checkAttemptsService.deleteUserEmail(this.loginForm.controls.email.value);
   }
   /********** METHODS **********/
   checkSubmit(): void{
@@ -52,14 +52,21 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   }
   private subscribeTokenService(): Subscription {
     return this.tokenService.getToken(this.loginForm.value).subscribe(
-      (tokenData: TokenModel) => localStorage.setItem(TOKEN, tokenData.accessToken),
-      (error) => { console.log(error.error); this.onErrorToken(); },
-      () => this.navigateByUserRole()
+      (tokenData: TokenModel) => this.onSuccessToken(tokenData.accessToken),
+      (errorServer) => this.onErrorToken(errorServer.error.message),
     );
   }
-  private onErrorToken(): void {
-    this.loginForm.controls.password.setValue('');
-    this.checkAttemptsService.checkIfEmailRegistered(this.loginForm.controls.email.value);
+  private onSuccessToken(token: string): void {
+    localStorage.setItem(TOKEN, token);
+    this.navigateByUserRole();
+  }
+  private onErrorToken(errorMessage: string): void {
+    const loginFormTemp = this.loginForm.controls;
+    loginFormTemp.password.setValue('');
+    alert(WRONG_LOGIN);
+    if (errorMessage === USER_BLOCKED) {
+      this.checkAttemptsService.addEmailBlocked(loginFormTemp.email.value);
+    }
   }
   private getCurrentUserRole(currentUser: UserModel): void {
     this.rolesService.getRoles().subscribe((roles: RoleModel[]) => {
@@ -72,13 +79,20 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     this.usersService.getUser().subscribe( (user: UserModel) => this.getCurrentUserRole(user) );
   }
   private checkIsUserEmailBlocked(): void {
-    if (this.checkAttemptsService.isUserEmailBlocked(this.loginForm.controls.email.value)) {
-      alert(WRONG_LOGIN);
-      this.loginForm.controls.password.setValue('');
+    const loginFormTemp = this.loginForm.controls;
+    if (this.checkAttemptsService.isUserEmailBlocked(loginFormTemp.email.value)) {
+      alert(FAIL_ATTEMPTS);
+      loginFormTemp.password.setValue('');
     } else {
       const subscriptionToken = this.subscribeTokenService();
       this.subscriptions.add(subscriptionToken);
     }
+    /* const emailCurrentUser = this.loginForm.controls.email.value;
+    this.tokenService.getToken({email: emailCurrentUser, password: ''}).
+      subscribe( (resp) => this.subscribeTokenService(), (errorServer) => {
+        if (errorServer.error.message === USER_BLOCKED) { alert(FAIL_ATTEMPTS); }
+        else { this.subscribeTokenService(); }
+      }); */
   }
   isFieldInvalid(fieldName: string): boolean{
     const field = this.loginForm.controls[fieldName];

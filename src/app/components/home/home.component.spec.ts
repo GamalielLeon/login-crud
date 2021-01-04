@@ -1,25 +1,34 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { of } from 'rxjs';
 import { HomeComponent } from './home.component';
+import { UserModel } from '../../models/user.model';
+import { UsersAPIService } from 'src/app/services/users-api.service';
 
-describe('HomeComponent', () => {
+describe('Pruebas del HomeComponent', () => {
+  const usersService: UsersAPIService = new UsersAPIService(null as any);
   let component: HomeComponent;
-  let fixture: ComponentFixture<HomeComponent>;
+  const char: string = ' ';
+  const users: UserModel[] = [{email: 'correo1@ejemplo.com', firstName: 'Nombre',
+                              lastName: 'Apellido', roleId: '', birthDate: '20-05-1990'},
+                              {email: 'correo2@ejemplo.com', firstName: 'nom bre',
+                              lastName: 'ape llido', roleId: '', birthDate: '20-05-1990'},
+                              {email: 'correo3@ejemplo.com', firstName: ' José',
+                              lastName: 'Ortiz ', roleId: '', birthDate: '20-05-1990'},
+                              {email: 'correo4@ejemplo.com', firstName: 'Juan1',
+                              lastName: '1Perez', roleId: '', birthDate: '20-05-1990'}];
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ HomeComponent ]
-    })
-    .compileComponents();
-  });
+  for (const user of users) {
+    it('Nombre recibido SI-CUMPLE con el formato a mostrar en pantalla', () => {
+      spyOn(usersService, 'getUser').and.callFake( () => of(user) );
+      component = new HomeComponent(usersService);
+      expect(component.getUserName()).toBe(`${user.firstName} ${user.lastName}`);
+    });
+  }
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(HomeComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  for (const user of users) {
+    it('Nombre recibido NO-CUMPLE con el formato a mostrar en pantalla', () => {
+      spyOn(usersService, 'getUser').and.callFake( () => of(user) );
+      component = new HomeComponent(usersService);
+      expect(component.getUserName()).not.toBe(`${user.firstName} ${char}${user.lastName}`);
+    });
+  }
 });

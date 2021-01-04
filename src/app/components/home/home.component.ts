@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { UsersAPIService } from 'src/app/services/users-api.service';
-import { ID_USER } from 'src/app/constants/localStorage-items';
 import { UserModel } from '../../models/user.model';
 
 @Component({

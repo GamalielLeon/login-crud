@@ -25,7 +25,6 @@ import { TokenService } from 'src/app/services/token.service';
 })
 export class LoginFormComponent implements OnInit, OnDestroy {
   // Attributes
-  private showPopUp: boolean = true;
   private subscriptions: Subscription = new Subscription();
   private messagePopUp: string = WRONG_FIELDS;
   // References
@@ -78,7 +77,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   private navigateByUserRole(): void {
     this.usersService.getUser().subscribe( (user: UserModel) => this.getCurrentUserRole(user) );
   }
-  private checkIsUserEmailBlocked(): void {
+  checkIsUserEmailBlocked(): void { // This method should be PRIVATE
     const loginFormTemp = this.loginForm.controls;
     if (this.checkAttemptsService.isUserEmailBlocked(loginFormTemp.email.value)) {
       alert(FAIL_ATTEMPTS);
@@ -100,10 +99,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   }
   /********** GETTERS **********/
   getMessagePopUp = (): string => this.messagePopUp;
-  getShowPopUp = (): boolean => this.showPopUp;
   /********** SETTERS **********/
   setMessagePopUp(message: string): void { this.messagePopUp = message; }
-  setShowPopUp(showPopUp: boolean): void { this.showPopUp = showPopUp; }
 }
 
 /* private navigateByUserRole(): void {

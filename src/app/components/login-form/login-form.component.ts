@@ -1,7 +1,7 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 // Constants
 import { FAIL_ATTEMPTS, WRONG_FIELDS, WRONG_LOGIN, USER_BLOCKED, USER_INACTIVE, NOT_ACTIVE } from 'src/app/constants/messages';
 import { EMAIL_PATTERN, PASSWORD_LOGIN_PATTERN } from '../../constants/patterns';
@@ -107,11 +107,3 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   /********** SETTERS **********/
   setMessagePopUp(message: string): void { this.messagePopUp = message; }
 }
-
-/* private navigateByUserRole(): void {
-  const token: any = localStorage.getItem('token');
-  const tokenDecrypted = JSON.parse(atob(token.split('.')[1]));
-  this.router.navigateByUrl(
-    tokenDecrypted[Object.keys(tokenDecrypted)[4]].
-    toLowerCase().split('.')[1] === 'admin' ? USERS_LIST : HOME);
-} */

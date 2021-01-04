@@ -5,12 +5,10 @@ import { Router } from '@angular/router';
 import { ERROR_PASSWORD, ERROR_FORMAT_PASSWORD, PASSWORDS_MISMATCH, UPDATE_PASSWORD_ERROR } from '../../constants/messages';
 import { LOGIN } from 'src/app/constants/paths';
 import { PASSWORD_PATTERN } from 'src/app/constants/patterns';
-import { ID_USER, TOKEN, USER_EMAIL } from '../../constants/localStorage-items';
+import { ID_USER, TOKEN } from '../../constants/localStorage-items';
 // Others
 import { UsersAPIService } from '../../services/users-api.service';
-import { UserModel } from '../../models/user.model';
 import { TokenService } from '../../services/token.service';
-import { TokenModel } from 'src/app/models/token.model';
 
 @Component({
   selector: 'app-new-password-form',
@@ -33,23 +31,14 @@ export class NewPasswordFormComponent implements OnInit {
    }
   ngOnInit(): void { }
   /********** METHODS **********/
-  private setTempToken(token: string): void {
-    localStorage.setItem(TOKEN, token);
-    this.usersService.getUser().subscribe( (user) =>
-      this.usersService.updateUser(user, true).subscribe(() => {
-        localStorage.removeItem(TOKEN);
-        this.router.navigateByUrl(LOGIN);
-      }) );
-  }
-  private updateUserStatus(newPassword: string): void {
-    const emailUser: string = localStorage.getItem(USER_EMAIL) as string;
-    this.tokenService.getToken({email: emailUser, password:  newPassword}).
-      subscribe( (tokenData: TokenModel) => this.setTempToken(tokenData.accessToken) );
+  private updateUserPassword(): void {
+    localStorage.removeItem(TOKEN);
+    this.router.navigateByUrl(LOGIN);
   }
   private setUserPassword(): void {
     const newPassword: string = this.createPasswordForm.controls.password.value;
     this.usersService.updatePassword(localStorage.getItem(ID_USER) as string, newPassword).subscribe(
-      (resp) => this.updateUserStatus(newPassword),
+      (resp) => this.updateUserPassword(),
       (error) => alert(UPDATE_PASSWORD_ERROR)
     );
   }
@@ -72,7 +61,6 @@ export class NewPasswordFormComponent implements OnInit {
     }
   }
   getMessagePasswordsMismatch = (): string => PASSWORDS_MISMATCH;
-
   /********** GETTERS **********/
   getPasswordsMatched = (): boolean => this.passwordsMatched;
   getErrorPassword = (): string => this.errorPassword;

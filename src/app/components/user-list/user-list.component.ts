@@ -131,7 +131,7 @@ export class UserListComponent implements OnInit, OnDestroy {
     const table: HTMLElement = document.getElementById(idTable) as HTMLElement;
     const workSheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(table);
     for (let i: number = this.usersFromAPI.length - 1; i >= 0; i--) {
-      workSheet['F' + (i + 2)] = {t: 's', v: (this.usersFromAPI[i].active as boolean).toString()};
+      workSheet['G' + (i + 2)] = {t: 's', v: (this.usersFromAPI[i].active as boolean).toString()};
     }
     const workBook: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workBook, workSheet, 'Sheet1');

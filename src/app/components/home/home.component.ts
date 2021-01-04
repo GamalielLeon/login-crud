@@ -1,5 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+// Constants
+import { TOKEN, PAGE, ID_USER } from '../../constants/localStorage-items';
+import { LOGIN } from '../../constants/paths';
+// Others
 import { UsersAPIService } from 'src/app/services/users-api.service';
 import { UserModel } from '../../models/user.model';
 
@@ -13,7 +18,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private loading: boolean = true;
   private subscriptions: Subscription = new Subscription();
 
-  constructor(private usersService: UsersAPIService) {
+  constructor(private usersService: UsersAPIService, private router: Router) {
     this.subscriptions = this.usersService.getUser().subscribe( (user: UserModel) => {
       this.userName = `${user.firstName} ${user.lastName}`;
       this.setLoading(false);
@@ -21,6 +26,16 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void { document.body.style.backgroundImage = 'url("assets/images/image3.jpg")'; }
   ngOnDestroy(): void { this.subscriptions.unsubscribe(); }
+  /********** METHODS **********/
+  logout(closeSession: boolean): void {
+    if (closeSession) {
+      localStorage.removeItem(PAGE);
+      localStorage.removeItem(ID_USER);
+      localStorage.removeItem(TOKEN);
+      this.setLoading(true);
+      setTimeout(() => this.router.navigateByUrl(LOGIN), 1000);
+    }
+  }
   /********** GETTERS **********/
   getUserName = (): string => this.userName;
   getLoading = (): boolean => this.loading;

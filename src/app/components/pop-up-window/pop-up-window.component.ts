@@ -12,14 +12,10 @@ export class PopUpWindowComponent implements OnInit, OnDestroy {
   @Input() iconClass: string = 'far fa-exclamation-triangle fa-6x text-danger';
 
   constructor() { }
-  ngOnInit(): void {
-    if (this.staticModal) { this.setModalType(); }
-  }
+  ngOnInit(): void { if (this.staticModal) { this.setModalType(); } }
   ngOnDestroy(): void {
     const modalsActive = document.getElementsByClassName('modal-backdrop');
-    if (modalsActive.length > 0) {
-    document.body.removeChild(modalsActive[0]);
-    }
+    if (modalsActive.length > 0) { document.body.removeChild(modalsActive[0]); }
   }
 
   private setModalType(): void {

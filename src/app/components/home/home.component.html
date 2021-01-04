@@ -15,11 +15,9 @@
 
     <div *ngIf="!getLoading()" class="row mx-0 my-3">
         <div class="col px-0 text-end">
-            <button class="btn btn-danger ms-2 fs-5" data-bs-toggle="modal" data-bs-target="#popUpWindow">
-                <span>Cerrar sesión &nbsp;<span class="fas fa-power-off fa-lg"></span></span>
+            <button class="btn btn-danger ms-2 fs-5" (click)="goMainPage()">
+                <span>Principal &nbsp;<span class="fas fa-bars fa-lg"></span></span>
             </button>
         </div>
     </div>
-
-    <app-pop-up-window [message]="'¿Finalizar sesión?'" [staticModal]="true" [iconClass]="'far fa-exclamation-circle fa-6x text-primary'" (acceptOrCancel)="logout($event)"></app-pop-up-window>
 </section>

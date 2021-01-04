@@ -2,8 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 // Constants
-import { TOKEN, PAGE, ID_USER } from '../../constants/localStorage-items';
-import { LOGIN } from '../../constants/paths';
+import { MAIN } from '../../constants/paths';
 // Others
 import { UsersAPIService } from 'src/app/services/users-api.service';
 import { UserModel } from '../../models/user.model';
@@ -27,14 +26,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnInit(): void { document.body.style.backgroundImage = 'url("assets/images/image3.jpg")'; }
   ngOnDestroy(): void { this.subscriptions.unsubscribe(); }
   /********** METHODS **********/
-  logout(closeSession: boolean): void {
-    if (closeSession) {
-      localStorage.removeItem(PAGE);
-      localStorage.removeItem(ID_USER);
-      localStorage.removeItem(TOKEN);
-      this.setLoading(true);
-      setTimeout(() => this.router.navigateByUrl(LOGIN), 1000);
-    }
+  goMainPage(): void {
+    this.setLoading(true);
+    setTimeout(() => this.router.navigateByUrl(MAIN), 500);
   }
   /********** GETTERS **********/
   getUserName = (): string => this.userName;

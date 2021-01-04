@@ -8,6 +8,9 @@ export const UPDATE_PASSWORD_ERROR: string = '¡No se pudo establecer la contras
 export const UPDATE_PASSWORD_SUCCESS: string = '¡Contraseña creada con éxito!';
 export const ERROR_PASSWORD: string = 'Se requieren como mínimo 8 caracteres.';
 export const PASSWORDS_MISMATCH: string = 'Las contraseñas no coinciden';
+export const NOT_ACTIVE: string = 'El usuario se encuentra inactivo';
 export const WRONG_LOGIN: string = '¡Credenciales incorrectas!';
+// Messages from server
 export const WRONG_CREDENTIALS: string = 'InvalidCredentials';
+export const USER_INACTIVE: string = 'UserIsInactive';
 export const USER_BLOCKED: string = 'UserIsBlocked';

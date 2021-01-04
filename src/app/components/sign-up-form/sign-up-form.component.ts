@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 // Constants
 import { EMAIL_PATTERN, NAME_PATTERN } from 'src/app/constants/patterns';
-import { ID_USER, TOKEN } from 'src/app/constants/localStorage-items';
+import { ID_USER } from 'src/app/constants/localStorage-items';
 import { getLimitsBirthDate } from 'src/app/constants/functions';
 import { EMAIL_ERROR } from '../../constants/messages';
 import { NEW_PASSWORD } from 'src/app/constants/paths';
@@ -15,6 +15,7 @@ import { UserModel } from '../../models/user.model';
 import { birthDateValidator } from '../../custom-validators/user-form.validators';
 import { UsersAPIService } from '../../services/users-api.service';
 import { TokenService } from 'src/app/services/token.service';
+import { USER_EMAIL } from '../../constants/localStorage-items';
 
 @Component({
   selector: 'app-sign-up-form',
@@ -51,8 +52,8 @@ export class SignUpFormComponent implements OnInit {
     return Math.round( (Math.random() + offset1) * amp + offset2).toString(base);
   }
   private onTokenCreated(user: UserModel, tokenData: TokenModel): void {
-    localStorage.setItem(TOKEN, tokenData.accessToken);
     localStorage.setItem(ID_USER, user.id as string);
+    localStorage.setItem(USER_EMAIL, user.email as string);
     this.usersService.updateUser(user, false).subscribe();
     this.router.navigateByUrl(NEW_PASSWORD);
   }

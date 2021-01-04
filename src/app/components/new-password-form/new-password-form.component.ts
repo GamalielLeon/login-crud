@@ -5,10 +5,12 @@ import { Router } from '@angular/router';
 import { ERROR_PASSWORD, ERROR_FORMAT_PASSWORD, PASSWORDS_MISMATCH, UPDATE_PASSWORD_ERROR } from '../../constants/messages';
 import { LOGIN } from 'src/app/constants/paths';
 import { PASSWORD_PATTERN } from 'src/app/constants/patterns';
-import { ID_USER } from '../../constants/localStorage-items';
+import { ID_USER, TOKEN, USER_EMAIL } from '../../constants/localStorage-items';
 // Others
 import { UsersAPIService } from '../../services/users-api.service';
 import { UserModel } from '../../models/user.model';
+import { TokenService } from '../../services/token.service';
+import { TokenModel } from 'src/app/models/token.model';
 
 @Component({
   selector: 'app-new-password-form',
@@ -23,7 +25,7 @@ export class NewPasswordFormComponent implements OnInit {
   createPasswordForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private router: Router,
-              private usersService: UsersAPIService) {
+              private usersService: UsersAPIService, private tokenService: TokenService) {
     this.createPasswordForm = formBuilder.group({
       password: ['', [Validators.required, Validators.pattern(PASSWORD_PATTERN)]],
       passwordConfirm: ['', [Validators.required, Validators.pattern(PASSWORD_PATTERN)]]
@@ -31,16 +33,23 @@ export class NewPasswordFormComponent implements OnInit {
    }
   ngOnInit(): void { }
   /********** METHODS **********/
-  private updateUserPassword(user: UserModel): void {
-    const newPassword: string = this.createPasswordForm.controls.password.value;
-    this.usersService.updateUser({...user, password: newPassword}, true).subscribe(
-      (resp) => this.router.navigateByUrl(LOGIN),
-      (error) => alert(UPDATE_PASSWORD_ERROR)
-    );
+  private setTempToken(token: string): void {
+    localStorage.setItem(TOKEN, token);
+    this.usersService.getUser().subscribe( (user) =>
+      this.usersService.updateUser(user, true).subscribe(() => {
+        localStorage.removeItem(TOKEN);
+        this.router.navigateByUrl(LOGIN);
+      }) );
+  }
+  private updateUserStatus(newPassword: string): void {
+    const emailUser: string = localStorage.getItem(USER_EMAIL) as string;
+    this.tokenService.getToken({email: emailUser, password:  newPassword}).
+      subscribe( (tokenData: TokenModel) => this.setTempToken(tokenData.accessToken) );
   }
   private setUserPassword(): void {
-    this.usersService.getUser(localStorage.getItem(ID_USER) as string).subscribe(
-      (user) => this.updateUserPassword(user),
+    const newPassword: string = this.createPasswordForm.controls.password.value;
+    this.usersService.updatePassword(localStorage.getItem(ID_USER) as string, newPassword).subscribe(
+      (resp) => this.updateUserStatus(newPassword),
       (error) => alert(UPDATE_PASSWORD_ERROR)
     );
   }

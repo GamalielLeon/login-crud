@@ -84,10 +84,13 @@
         </nav>
     </div>
 
-    <div class="row mx-0 my-2">
-        <div class="col px-0 text-center">
-            <button class="fw-bold btn btn-warning fs-5" (click)="goHome()">
-                <span class="fas fa-home-lg"></span> Página de inicio
+    <div *ngIf="!getLoading()" class="row mx-0 my-3">
+        <div class="d-flex justify-content-around px-0 text-end">
+            <button class="fw-bold btn btn-warning me-2 fs-5" (click)="goHome()">
+                <span class="fas fa-home-lg"></span> Inicio
+            </button>
+            <button class="fw-bold btn btn-warning ms-2 fs-5" (click)="goMainPage()">
+                <span>Principal &nbsp;<span class="fas fa-bars fa-lg"></span></span>
             </button>
         </div>
     </div>

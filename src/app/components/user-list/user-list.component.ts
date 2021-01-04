@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import * as XLSX from 'xlsx';
 // Constants
-import { ADD_USER, EDIT_USER, USERS_LIST, HOME } from '../../constants/paths';
+import { ADD_USER, EDIT_USER, USERS_LIST, HOME, MAIN } from '../../constants/paths';
 import { USER_TO_EDIT, ROLES, PAGE } from '../../constants/localStorage-items';
 // Services
 import { RolesApiService } from '../../services/roles-api.service';
@@ -120,13 +120,6 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.usersService.getRecords(page).subscribe(
       (apiData: ApiDataModel) => this.setDataFromAPI(apiData));
   }
-  nextPage(): void { this.changePage(++this.pagesData.pageNumber); }
-  previousPage(): void { this.changePage(--this.pagesData.pageNumber); }
-  fistPage(): void { this.changePage(this.pagesData.pageNumber = 1); }
-  lastPage(): void { this.changePage(this.pagesData.pageNumber = this.pagesData.totalPages); }
-  goHome(): void { this.router.navigateByUrl(HOME); }
-  getStatus = (index: number): boolean|void => this.usersFromAPI[index].active ? true : undefined;
-
   exportExcel(idTable: string): void {
     const table: HTMLElement = document.getElementById(idTable) as HTMLElement;
     const workSheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(table);
@@ -136,6 +129,16 @@ export class UserListComponent implements OnInit, OnDestroy {
     const workBook: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workBook, workSheet, 'Sheet1');
     XLSX.writeFile(workBook, 'usersData.xlsx');
+  }
+  nextPage(): void { this.changePage(++this.pagesData.pageNumber); }
+  previousPage(): void { this.changePage(--this.pagesData.pageNumber); }
+  fistPage(): void { this.changePage(this.pagesData.pageNumber = 1); }
+  lastPage(): void { this.changePage(this.pagesData.pageNumber = this.pagesData.totalPages); }
+  getStatus = (index: number): boolean|void => this.usersFromAPI[index].active ? true : undefined;
+  goHome(): void { this.router.navigateByUrl(HOME); }
+  goMainPage(): void {
+    this.setLoading(true);
+    setTimeout(() => this.router.navigateByUrl(MAIN), 1000);
   }
   /********** GETTERS **********/
   getPages(): number[] {

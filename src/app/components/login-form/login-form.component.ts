@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 // Constants
-import { FAIL_ATTEMPTS, WRONG_FIELDS, WRONG_LOGIN, USER_BLOCKED } from 'src/app/constants/messages';
+import { FAIL_ATTEMPTS, WRONG_FIELDS, WRONG_LOGIN, USER_BLOCKED, USER_INACTIVE, NOT_ACTIVE } from 'src/app/constants/messages';
 import { EMAIL_PATTERN, PASSWORD_LOGIN_PATTERN } from '../../constants/patterns';
 import { TOKEN, ID_USER } from 'src/app/constants/localStorage-items';
 import { USERS_LIST, HOME } from 'src/app/constants/paths';
@@ -17,6 +17,7 @@ import { CheckAttemptsService } from 'src/app/services/check-attempts.service';
 import { RolesApiService } from 'src/app/services/roles-api.service';
 import { UsersAPIService } from 'src/app/services/users-api.service';
 import { TokenService } from 'src/app/services/token.service';
+import { WRONG_CREDENTIALS } from '../../constants/messages';
 
 @Component({
   selector: 'app-login-form',
@@ -27,6 +28,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   // Attributes
   private subscriptions: Subscription = new Subscription();
   private messagePopUp: string = WRONG_FIELDS;
+  private errorMessages: any = {};
   // References
   loginForm: FormGroup;
 
@@ -37,6 +39,9 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       email: ['', [Validators.required, Validators.pattern(EMAIL_PATTERN)]],
       password: ['', [Validators.required, Validators.pattern(PASSWORD_LOGIN_PATTERN)]]
     });
+    Object.defineProperty(this.errorMessages, WRONG_CREDENTIALS, {value: WRONG_LOGIN, enumerable: true});
+    Object.defineProperty(this.errorMessages, USER_INACTIVE, {value: NOT_ACTIVE, enumerable: true});
+    Object.defineProperty(this.errorMessages, USER_BLOCKED, {value: FAIL_ATTEMPTS, enumerable: true});
     localStorage.clear();
   }
   ngOnInit(): void { document.body.style.backgroundImage = 'url("assets/images/bgImg0.jpg")'; }
@@ -61,8 +66,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   }
   private onErrorToken(errorMessage: string): void {
     const loginFormTemp = this.loginForm.controls;
+    alert(this.errorMessages[errorMessage]);
     loginFormTemp.password.setValue('');
-    alert(WRONG_LOGIN);
     if (errorMessage === USER_BLOCKED) {
       this.checkAttemptsService.addEmailBlocked(loginFormTemp.email.value);
     }

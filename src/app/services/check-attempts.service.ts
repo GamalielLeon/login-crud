@@ -24,7 +24,6 @@ export class CheckAttemptsService {
   isUserEmailBlocked = (userEmail: string): boolean => this.usersEmails.includes(userEmail);
   addEmailBlocked(userEmail: string): void {
     if (!this.usersEmails.includes(userEmail)) {
-      alert(FAIL_ATTEMPTS);
       this.usersEmails.push(userEmail);
       this.generateObserverPerUserBlocked(userEmail);
     }

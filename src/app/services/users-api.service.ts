@@ -34,4 +34,10 @@ export class UsersAPIService {
   getUser(userId: string = 'Mine'): Observable<UserModel> {
     return this.http.get<UserModel>(`${API_URL_USERS}/${userId}`, {headers: this.generateHttpHeader()});
   }
+
+  recoverPassword(): void {}
+  updatePassword(userId: string, newPassword: string): Observable<object> {
+    return this.http.put<object>(`${API_URL_USERS}/UpdatePassword/${userId}`,
+      {password: newPassword}, {headers: this.generateHttpHeader()});
+  }
 }

@@ -7,7 +7,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-5 me-auto">
                 <li class="nav-item mx-0 mx-md-4">
-                    <a class="nav-link" routerLink="/home">Home</a>
+                    <a class="nav-link" [class.disabled]="!getUserLoggedIn()" routerLink="/home">Home</a>
                 </li>
                 <li class="nav-item mx-0 mx-md-4">
                     <a class="nav-link" routerLink="/info">Info</a>
@@ -16,9 +16,13 @@
                     <a class="nav-link" routerLink="/about">About</a>
                 </li>
             </ul>
-            <div class="d-flex ms-5 me-3">
-                <button class="btn btn-primary fw-bold" routerLink="/">Ingresar</button>
+            <div *ngIf="!getLoading()" class="d-flex ms-5 me-3">
+                <button class="btn btn-primary fw-bold" (click)="logInOut()">
+                  {{getTextButton()}}&nbsp; <span *ngIf="getUserLoggedIn()" class="fas fa-power-off fa-lg"></span>
+                </button>
             </div>
         </div>
     </nav>
+
+    <app-loading *ngIf="getLoading()"></app-loading>
 </header>

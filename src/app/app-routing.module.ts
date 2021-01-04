@@ -22,7 +22,7 @@ const routes: Routes = [
   {path: MAIN, component: NavbarComponent},
   {path: LOGIN, component: LoginFormComponent},
   {path: REGISTER, component: SignUpFormComponent},
-  {path: NEW_PASSWORD, component: NewPasswordFormComponent, canActivate: [UserCreatedGuard]},
+  {path: NEW_PASSWORD, component: NewPasswordFormComponent},
   {path: RECOVER_PASSWORD, component: ResetPasswordFormComponent},
   {path: HOME, component: HomeComponent, canActivate: [AuthGuard]},
   {path: USERS_LIST, component: UserListComponent, canActivate: [AuthGuard, AdminGuard]},

@@ -91,12 +91,6 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       const subscriptionToken = this.subscribeTokenService();
       this.subscriptions.add(subscriptionToken);
     }
-    /* const emailCurrentUser = this.loginForm.controls.email.value;
-    this.tokenService.getToken({email: emailCurrentUser, password: ''}).
-      subscribe( (resp) => this.subscribeTokenService(), (errorServer) => {
-        if (errorServer.error.message === USER_BLOCKED) { alert(FAIL_ATTEMPTS); }
-        else { this.subscribeTokenService(); }
-      }); */
   }
   isFieldInvalid(fieldName: string): boolean{
     const field = this.loginForm.controls[fieldName];
@@ -107,3 +101,10 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   /********** SETTERS **********/
   setMessagePopUp(message: string): void { this.messagePopUp = message; }
 }
+
+/* const emailCurrentUser = this.loginForm.controls.email.value;
+    this.tokenService.getToken({email: emailCurrentUser, password: ''}).
+      subscribe( (resp) => this.subscribeTokenService(), (errorServer) => {
+        if (errorServer.error.message === USER_BLOCKED) { alert(FAIL_ATTEMPTS); }
+        else { this.subscribeTokenService(); }
+      }); */

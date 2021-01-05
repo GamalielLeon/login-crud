@@ -6,7 +6,7 @@ import { UsersAPIService } from 'src/app/services/users-api.service';
 describe('Pruebas del HomeComponent', () => {
   const usersService: UsersAPIService = new UsersAPIService(null as any);
   let component: HomeComponent;
-  const char: string = ' ';
+  const char: string = '+';
   const users: UserModel[] = [{email: 'correo1@ejemplo.com', firstName: 'Nombre',
                               lastName: 'Apellido', roleId: '', birthDate: '20-05-1990'},
                               {email: 'correo2@ejemplo.com', firstName: 'nom bre',
@@ -19,7 +19,7 @@ describe('Pruebas del HomeComponent', () => {
   for (const user of users) {
     it('Nombre recibido SI-CUMPLE con el formato a mostrar en pantalla', () => {
       spyOn(usersService, 'getUser').and.callFake( () => of(user) );
-      component = new HomeComponent(usersService);
+      component = new HomeComponent(usersService, null as any);
       expect(component.getUserName()).toBe(`${user.firstName} ${user.lastName}`);
     });
   }
@@ -27,7 +27,7 @@ describe('Pruebas del HomeComponent', () => {
   for (const user of users) {
     it('Nombre recibido NO-CUMPLE con el formato a mostrar en pantalla', () => {
       spyOn(usersService, 'getUser').and.callFake( () => of(user) );
-      component = new HomeComponent(usersService);
+      component = new HomeComponent(usersService, null as any);
       expect(component.getUserName()).not.toBe(`${user.firstName} ${char}${user.lastName}`);
     });
   }

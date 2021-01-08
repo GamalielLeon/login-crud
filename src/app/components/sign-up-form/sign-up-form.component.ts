@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 // Constants
 import { EMAIL_PATTERN, NAME_PATTERN } from 'src/app/constants/patterns';
-import { ID_USER } from 'src/app/constants/localStorage-items';
 import { getLimitsBirthDate } from 'src/app/constants/functions';
 import { EMAIL_ERROR } from '../../constants/messages';
 import { NEW_PASSWORD } from 'src/app/constants/paths';
@@ -11,8 +10,6 @@ import { NEW_PASSWORD } from 'src/app/constants/paths';
 import { birthDateValidator } from '../../custom-validators/user-form.validators';
 import { UsersAPIService } from '../../services/users-api.service';
 import { TokenService } from 'src/app/services/token.service';
-import { USER_EMAIL } from '../../constants/localStorage-items';
-import { UserModel } from '../../models/user.model';
 
 @Component({
   selector: 'app-sign-up-form',
@@ -47,15 +44,11 @@ export class SignUpFormComponent implements OnInit {
   private generateRandomNumber(amp: number, offset1: number, offset2: number, base: number): string {
     return Math.round( (Math.random() + offset1) * amp + offset2).toString(base);
   }
-  private userCreated(user: UserModel): void {
-    localStorage.setItem(ID_USER, user.id as string);
-    localStorage.setItem(USER_EMAIL, user.email);
-    this.router.navigateByUrl(NEW_PASSWORD);
-  }
+  private userCreated(userId: string): void { this.router.navigateByUrl(`${NEW_PASSWORD}/${userId}`); }
   private checkIfUserDataIsValid(): void {
     this.usersService.createUser(this.signUpForm.value).subscribe(
-      (userCreated) => this.userCreated(userCreated),
-      (error) => alert(EMAIL_ERROR),
+      userCreated => this.userCreated(userCreated.id as string),
+      error => alert(EMAIL_ERROR),
     );
   }
   checkSubmit(): void{

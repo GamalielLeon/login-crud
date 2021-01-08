@@ -3,15 +3,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 // Constants
+import { UserModel } from '../../models/user.model';
 import { FAIL_ATTEMPTS, WRONG_FIELDS, WRONG_LOGIN, USER_BLOCKED, USER_INACTIVE, NOT_ACTIVE } from 'src/app/constants/messages';
 import { EMAIL_PATTERN, PASSWORD_LOGIN_PATTERN } from '../../constants/patterns';
 import { TOKEN, ID_USER } from 'src/app/constants/localStorage-items';
 import { USERS_LIST, HOME } from 'src/app/constants/paths';
 import { ADMIN } from '../../constants/roles';
-// Models
-import { TokenModel } from '../../models/token.model';
-import { RoleModel } from 'src/app/models/role.model';
-import { UserModel } from '../../models/user.model';
 // Services
 import { CheckAttemptsService } from 'src/app/services/check-attempts.service';
 import { RolesApiService } from 'src/app/services/roles-api.service';
@@ -55,8 +52,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   }
   private subscribeTokenService(): Subscription {
     return this.tokenService.getToken(this.loginForm.value).subscribe(
-      (tokenData: TokenModel) => this.onSuccessToken(tokenData.accessToken),
-      (errorServer) => this.onErrorToken(errorServer.error.message),
+      tokenData => this.onSuccessToken(tokenData.accessToken),
+      errorServer => this.onErrorToken(errorServer.error.message),
     );
   }
   private onSuccessToken(token: string): void {
@@ -72,14 +69,14 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     }
   }
   private getCurrentUserRole(currentUser: UserModel): void {
-    this.rolesService.getRoles().subscribe((roles: RoleModel[]) => {
+    this.rolesService.getRoles().subscribe(roles => {
       localStorage.setItem(ID_USER, currentUser.id as string);
-      const currentRole = roles.filter( (role: RoleModel) => role.id === currentUser.roleId )[0].name;
+      const currentRole = roles.filter( role => role.id === currentUser.roleId )[0].name;
       this.router.navigateByUrl(currentRole === ADMIN ? USERS_LIST : HOME);
     });
   }
   private navigateByUserRole(): void {
-    this.usersService.getUser().subscribe( (user: UserModel) => this.getCurrentUserRole(user) );
+    this.usersService.getUser().subscribe( user => this.getCurrentUserRole(user) );
   }
   checkIsUserEmailBlocked(): void { // This method should be PRIVATE
     const loginFormTemp = this.loginForm.controls;

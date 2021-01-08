@@ -1,12 +1,12 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 // Constants
 import { ERROR_PASSWORD, ERROR_FORMAT_PASSWORD, PASSWORDS_MISMATCH, UPDATE_PASSWORD_ERROR } from '../../constants/messages';
-import { LOGIN } from 'src/app/constants/paths';
 import { PASSWORD_PATTERN } from 'src/app/constants/patterns';
-import { ID_USER, TOKEN } from '../../constants/localStorage-items';
-// Others
+import { TOKEN } from '../../constants/localStorage-items';
+import { LOGIN } from 'src/app/constants/paths';
+// Services
 import { UsersAPIService } from '../../services/users-api.service';
 import { TokenService } from '../../services/token.service';
 
@@ -17,17 +17,19 @@ import { TokenService } from '../../services/token.service';
 })
 export class NewPasswordFormComponent implements OnInit {
   // Attributes
+  private userId: string = '';
   private passwordsMatched: boolean = true;
   private errorPassword: string = ERROR_PASSWORD;
   // References
   createPasswordForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private router: Router,
+  constructor(private formBuilder: FormBuilder, private router: Router, private activeRoute: ActivatedRoute,
               private usersService: UsersAPIService, private tokenService: TokenService) {
     this.createPasswordForm = formBuilder.group({
       password: ['', [Validators.required, Validators.pattern(PASSWORD_PATTERN)]],
       passwordConfirm: ['', [Validators.required, Validators.pattern(PASSWORD_PATTERN)]]
     });
+    this.activeRoute.params.subscribe(params => this.userId = params.id);
    }
   ngOnInit(): void { }
   /********** METHODS **********/
@@ -37,9 +39,9 @@ export class NewPasswordFormComponent implements OnInit {
   }
   private setUserPassword(): void {
     const newPassword: string = this.createPasswordForm.controls.password.value;
-    this.usersService.updatePassword(localStorage.getItem(ID_USER) as string, newPassword).subscribe(
-      (resp) => this.updateUserPassword(),
-      (error) => alert(UPDATE_PASSWORD_ERROR)
+    this.usersService.updatePassword(this.userId, newPassword).subscribe(
+      resp => this.updateUserPassword(),
+      error => alert(UPDATE_PASSWORD_ERROR)
     );
   }
   checkSubmit(): void{

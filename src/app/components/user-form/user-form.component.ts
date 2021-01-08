@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -20,8 +20,8 @@ import { UserModel } from '../../models/user.model';
 })
 export class UserFormComponent implements OnInit, OnDestroy {
   // Attributes
-  @Input() titleUserForm: string = 'USUARIO';
-  @Input() iconUserForm: string = 'fas fa-user-plus fa-6x';
+  private iconUserForm: string = 'fas fa-user-plus fa-6x';
+  private titleUserForm: string = 'AGREGAR USUARIO';
   private editUser: boolean = false;
   private userDataInput: UserModel;
   private roles: string[] = [];
@@ -30,8 +30,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
   userForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private router: Router, private userService: UsersAPIService){
-    this.userDataInput = { id: '', email: '', firstName: '',
-                           lastName: '', roleId: '', birthDate: '', active: true};
+    this.userDataInput = { id: '', email: '', firstName: '', lastName: '',
+                           roleId: '', birthDate: '', active: true};
     this.setUserDataInput();
     this.userForm = formBuilder.group({
       email: [this.userDataInput.email, [Validators.required, Validators.pattern(EMAIL_PATTERN)]],
@@ -67,18 +67,27 @@ export class UserFormComponent implements OnInit, OnDestroy {
     const field: AbstractControl = this.userForm.controls[fieldName];
     return field.invalid && field.touched;
   }
+  setFormTitleAndIcon(title: string, icon: string): void {
+    this.setTitleUserForm(title);
+    this.setIconUserForm(icon);
+  }
   getMinBirthDate = (): string => getLimitsBirthDate()[0];
   getMaxBirthDate = (): string => getLimitsBirthDate()[1];
 
   /********** GETTERS **********/
   getRoles = (): string[] => this.roles;
+  getTitleUserForm = (): string => this.titleUserForm;
+  getIconUserForm = (): string => this.iconUserForm;
 
   /********** SETTERS **********/
+  setTitleUserForm(title: string): void { this.titleUserForm = title; }
+  setIconUserForm(icon: string): void { this.iconUserForm = icon; }
   private setUserDataInput(): void {
     const getUserToEdit: string|null = localStorage.getItem(USER_TO_EDIT);
     this.rolesData = JSON.parse(localStorage.getItem(ROLES) as any);
     this.roles = Object.keys(this.rolesData).reverse();
     if (getUserToEdit) {
+      this.setFormTitleAndIcon('EDITAR USUARIO', 'fas fa-user-edit fa-6x');
       this.userDataInput = JSON.parse(getUserToEdit);
       this.editUser = true;
       this.setRoles();

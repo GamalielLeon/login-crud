@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
 
   constructor(private usersService: UsersAPIService, private router: Router) {
-    this.subscriptions = this.usersService.getUser().subscribe( (user: UserModel) => {
+    this.subscriptions = this.usersService.getUser().subscribe(user => {
       this.userName = `${user.firstName} ${user.lastName}`;
       this.setLoading(false);
     });

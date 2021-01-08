@@ -42,7 +42,6 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     Object.defineProperty(this.errorMessages, WRONG_CREDENTIALS, {value: WRONG_LOGIN, enumerable: true});
     Object.defineProperty(this.errorMessages, USER_INACTIVE, {value: NOT_ACTIVE, enumerable: true});
     Object.defineProperty(this.errorMessages, USER_BLOCKED, {value: FAIL_ATTEMPTS, enumerable: true});
-    localStorage.clear();
   }
   ngOnInit(): void { document.body.style.backgroundImage = 'url("assets/images/bgImg0.jpg")'; }
   ngOnDestroy(): void {

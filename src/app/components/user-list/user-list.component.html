@@ -86,10 +86,10 @@
 
     <div *ngIf="!getLoading()" class="row mx-0 my-3">
         <div class="d-flex justify-content-around px-0 text-end">
-            <button class="fw-bold btn btn-warning me-2 fs-5" (click)="goHome()">
+            <button class="fw-bold btn btn-warning me-2 fs-5" (click)="navigate('home')">
                 <span class="fas fa-home-lg"></span> Inicio
             </button>
-            <button class="fw-bold btn btn-warning ms-2 fs-5" (click)="goMainPage()">
+            <button class="fw-bold btn btn-warning ms-2 fs-5" (click)="navigate('main')">
                 <span>Principal &nbsp;<span class="fas fa-bars fa-lg"></span></span>
             </button>
         </div>

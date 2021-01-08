@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { ID_USER, PAGE, TOKEN } from 'src/app/constants/localStorage-items';
 import { UsersAPIService } from 'src/app/services/users-api.service';
-import { UserModel } from '../../models/user.model';
 import { Router } from '@angular/router';
-import { LOGIN, MAIN } from 'src/app/constants/paths';
+import { LOGIN } from 'src/app/constants/paths';
+import { RolesApiService } from '../../services/roles-api.service';
 
 @Component({
   selector: 'app-navbar',
@@ -16,13 +16,15 @@ export class NavbarComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
   private refSetIntervalShowImagesObs: any;
   private textButton: string = 'Ingresar';
+  private currentRole: string = '';
   private loggedIn: boolean = false;
   private loading: boolean = true;
 
-  constructor(private usersService: UsersAPIService, private router: Router) {
+  constructor(private usersService: UsersAPIService, private router: Router,
+              private rolesService: RolesApiService) {
     this.subscriptions.add(this.showImagesBgObs().subscribe());
-    this.subscriptions.add( this.usersService.getUser().subscribe(
-      (user: UserModel) => this.ifUserLoggedIn(), () => this.setLoading(false)) );
+    this.subscriptions.add(this.usersService.getUser().
+      subscribe( user => this.ifUserLoggedIn(), error => this.setLoading(false) ));
   }
   ngOnInit(): void { }
   ngOnDestroy(): void {
@@ -32,6 +34,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
   /********** METHODS **********/
   ifUserLoggedIn(): void {
+    this.getCurrentUserRole();
     this.setTextButton('Cerrar sesión');
     this.loggedIn = true;
     this.setLoading(false);
@@ -45,10 +48,17 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
     else { this.router.navigateByUrl(LOGIN); }
   }
+  getCurrentUserRole(): void {
+    this.usersService.getUser().subscribe( user => {
+      this.rolesService.getRoles().
+        subscribe(roles => this.currentRole = roles.filter(role => role.id === user.roleId)[0].name);
+    });
+  }
   /********** GETTERS **********/
   getUserLoggedIn = (): boolean => this.loggedIn;
   getTextButton = (): string => this.textButton;
   getLoading = (): boolean => this.loading;
+  getCurrentRole = (): string => this.currentRole;
   /********** SETTERS **********/
   setTextButton(text: string): void { this.textButton = text; }
   setLoading(loading: boolean): void { this.loading = loading; }

@@ -31,9 +31,8 @@ export class UserListComponent implements OnInit, OnDestroy {
               private rolesService: RolesApiService) {
     this.pagesData = {pageNumber: 1, pageSize: 10, totalPages: 1, totalRecords: 0, data: []};
     const page: number = +(localStorage.getItem(PAGE) as string);
-    this.usersService.getRecords(page).subscribe(
-      (apiData: ApiDataModel) => this.setDataFromAPI(apiData) );
-    this.rolesService.getRoles().subscribe( (rolesFromAPI: RoleModel[]) => {
+    this.usersService.getRecords(page).subscribe( apiData => this.setDataFromAPI(apiData) );
+    this.rolesService.getRoles().subscribe( rolesFromAPI => {
       this.getRoleNamesAndRoleIds(rolesFromAPI);
       this.setLoading(false);
     });
@@ -47,7 +46,7 @@ export class UserListComponent implements OnInit, OnDestroy {
 
   /********** METHODS **********/
   private getRoleNamesAndRoleIds(rolesFromAPI: RoleModel[]): void {
-    rolesFromAPI.forEach( (role: RoleModel) => Object.defineProperty(
+    rolesFromAPI.forEach( role => Object.defineProperty(
       this.roles, role.id, {value: role.name.toUpperCase(), enumerable: true}) );
   }
   private setDataFromAPI(apiData: ApiDataModel): void {
@@ -57,8 +56,8 @@ export class UserListComponent implements OnInit, OnDestroy {
   }
   private setPagesData(pagesData: ApiDataModel): void {
     this.pagesData = pagesData;
-    let page: number = this.pagesData.totalPages;
     this.pages.splice(0, this.pages.length);
+    let page: number = this.pagesData.totalPages;
     for (; page > 0; page--) { this.pages.unshift(page); }
   }
   private getTableHeaders(indexTh: number): any {
@@ -111,20 +110,19 @@ export class UserListComponent implements OnInit, OnDestroy {
   changeStatus(acceptChange: boolean): void {
     if (acceptChange) {
       const userTemp: UserModel = this.usersFromAPI[this.indexUserSelected];
-      this.usersService.updateUser(userTemp, !userTemp.active).subscribe();
       userTemp.active = !userTemp.active;
+      this.usersService.updateUser(userTemp).subscribe();
     }
     else { (document.getElementById(`userStatus${this.indexUserSelected}`) as HTMLElement).click(); }
   }
   changePage(page: number): void {
-    this.usersService.getRecords(page).subscribe(
-      (apiData: ApiDataModel) => this.setDataFromAPI(apiData));
+    this.usersService.getRecords(page).subscribe(apiData => this.setDataFromAPI(apiData));
   }
   exportExcel(idTable: string): void {
     const table: HTMLElement = document.getElementById(idTable) as HTMLElement;
     const workSheet: XLSX.WorkSheet = XLSX.utils.table_to_sheet(table);
     for (let i: number = this.usersFromAPI.length - 1; i >= 0; i--) {
-      workSheet['G' + (i + 2)] = {t: 's', v: (this.usersFromAPI[i].active as boolean).toString()};
+      workSheet['G' + (i + 2)] = {t: 's', v: this.usersFromAPI[i].active ? 'Activo' : 'Inactivo'};
     }
     const workBook: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workBook, workSheet, 'Sheet1');
@@ -135,10 +133,9 @@ export class UserListComponent implements OnInit, OnDestroy {
   fistPage(): void { this.changePage(this.pagesData.pageNumber = 1); }
   lastPage(): void { this.changePage(this.pagesData.pageNumber = this.pagesData.totalPages); }
   getStatus = (index: number): boolean|void => this.usersFromAPI[index].active ? true : undefined;
-  goHome(): void { this.router.navigateByUrl(HOME); }
-  goMainPage(): void {
+  navigate(route: string): void {
     this.setLoading(true);
-    setTimeout(() => this.router.navigateByUrl(MAIN), 1000);
+    setTimeout(() => this.router.navigateByUrl(route === 'home' ? HOME : MAIN), 1000);
   }
   /********** GETTERS **********/
   getPages(): number[] {

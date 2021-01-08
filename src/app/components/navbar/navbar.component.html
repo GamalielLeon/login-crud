@@ -9,6 +9,9 @@
                 <li class="nav-item mx-0 mx-md-4">
                     <a class="nav-link" [class.disabled]="!getUserLoggedIn()" routerLink="/home">Home</a>
                 </li>
+                <li *ngIf="getCurrentRole().toLowerCase() === 'admin'" class="nav-item mx-0 mx-md-4">
+                    <a class="nav-link" routerLink="/usersList">Lista de usuarios</a>
+                </li>
                 <li class="nav-item mx-0 mx-md-4">
                     <a class="nav-link" routerLink="/info">Info</a>
                 </li>

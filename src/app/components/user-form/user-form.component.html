@@ -3,6 +3,7 @@
         <h2 class="text-center my-3">{{getTitleUserForm()}}</h2>
         <span class="text-center text-primary" [ngClass]="getIconUserForm()"></span>
     </div>
+
     <div class="row justify-content-center mx-0">
         <form [formGroup]="userForm" (ngSubmit)="checkSubmit()">
             <div class="input-group mt-3">
@@ -38,5 +39,6 @@
             </div>
         </form>
     </div>
+
     <app-pop-up-window [message]="'Algunos campos no están llenados correctamente'"></app-pop-up-window>
 </aside>

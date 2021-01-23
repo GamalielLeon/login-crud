@@ -2,13 +2,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 // Constants
-import { ERROR_PASSWORD, ERROR_FORMAT_PASSWORD, PASSWORDS_MISMATCH, UPDATE_PASSWORD_ERROR } from '../../constants/messages';
+import { ERROR_PASSWORD, ERROR_FORMAT_PASSWORD, PASSWORDS_MISMATCH, UPDATE_PASSWORD_ERROR } from 'src/app/constants/messages';
 import { PASSWORD_PATTERN } from 'src/app/constants/patterns';
-import { TOKEN } from '../../constants/localStorage-items';
+import { TOKEN } from 'src/app/constants/localStorage-items';
 import { LOGIN } from 'src/app/constants/paths';
 // Services
-import { UsersAPIService } from '../../services/users-api.service';
-import { TokenService } from '../../services/token.service';
+import { UsersAPIService } from 'src/app/services/users-api.service';
 
 @Component({
   selector: 'app-new-password-form',
@@ -24,7 +23,7 @@ export class NewPasswordFormComponent implements OnInit {
   createPasswordForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private router: Router, private activeRoute: ActivatedRoute,
-              private usersService: UsersAPIService, private tokenService: TokenService) {
+              private usersService: UsersAPIService) {
     this.createPasswordForm = formBuilder.group({
       password: ['', [Validators.required, Validators.pattern(PASSWORD_PATTERN)]],
       passwordConfirm: ['', [Validators.required, Validators.pattern(PASSWORD_PATTERN)]]

@@ -1,14 +1,14 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as XLSX from 'xlsx';
 // Constants
-import { ADD_USER, EDIT_USER, USERS_LIST, HOME, MAIN } from '../../constants/paths';
-import { USER_TO_EDIT, ROLES, PAGE } from '../../constants/localStorage-items';
+import { ADD_USER, EDIT_USER, USERS_LIST, HOME, MAIN } from 'src/app/constants/paths';
+import { USER_TO_EDIT, ROLES, PAGE } from 'src/app/constants/localStorage-items';
 // Services
-import { RolesApiService } from '../../services/roles-api.service';
+import { RolesApiService } from 'src/app/services/roles-api.service';
 import { UsersAPIService } from 'src/app/services/users-api.service';
 // Models
-import { UserModel } from '../../models/user.model';
+import { UserModel } from 'src/app/models/user.model';
 import { RoleModel } from 'src/app/models/role.model';
 import { ApiDataModel } from 'src/app/models/apiData.model';
 
@@ -17,7 +17,7 @@ import { ApiDataModel } from 'src/app/models/apiData.model';
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.css']
 })
-export class UserListComponent implements OnInit, OnDestroy {
+export class UserListComponent implements OnInit {
   private toggleTableHeaderArrow: boolean = false;
   private indexUserSelected: number = 0;
   private loading: boolean = true;
@@ -42,7 +42,6 @@ export class UserListComponent implements OnInit, OnDestroy {
     localStorage.removeItem(USER_TO_EDIT);
     localStorage.removeItem(ROLES);
   }
-  ngOnDestroy(): void { }
 
   /********** METHODS **********/
   private getRoleNamesAndRoleIds(rolesFromAPI: RoleModel[]): void {

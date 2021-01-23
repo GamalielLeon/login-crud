@@ -3,12 +3,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 // Constants
-import { UserModel } from '../../models/user.model';
 import { FAIL_ATTEMPTS, WRONG_FIELDS, WRONG_LOGIN, USER_BLOCKED, USER_INACTIVE, NOT_ACTIVE } from 'src/app/constants/messages';
 import { EMAIL_PATTERN, PASSWORD_LOGIN_PATTERN } from '../../constants/patterns';
 import { TOKEN, ID_USER } from 'src/app/constants/localStorage-items';
 import { USERS_LIST, HOME } from 'src/app/constants/paths';
-import { ADMIN } from '../../constants/roles';
+import { UserModel } from 'src/app/models/user.model';
+import { ADMIN } from 'src/app/constants/roles';
 // Services
 import { CheckAttemptsService } from 'src/app/services/check-attempts.service';
 import { RolesApiService } from 'src/app/services/roles-api.service';

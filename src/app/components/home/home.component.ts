@@ -1,11 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-// Constants
+// Constants and services
 import { MAIN } from '../../constants/paths';
-// Others
 import { UsersAPIService } from 'src/app/services/users-api.service';
-import { UserModel } from '../../models/user.model';
 
 @Component({
   selector: 'app-home',

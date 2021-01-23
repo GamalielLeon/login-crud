@@ -30,7 +30,6 @@ export class ResetPasswordFormComponent implements OnInit {
       resp => { alert(RECOVER_PASSWORD_SUCCESS); this.router.navigateByUrl(NEW_PASSWORD); },
       error => alert(RECOVER_PASSWORD_FAIL)
     );
-    // this.router.navigateByUrl(NEW_PASSWORD);
   }
   checkSubmit(): void{
     if (this.resetPasswordForm.valid) { this.cheIfEmailExists(); }
@@ -40,7 +39,4 @@ export class ResetPasswordFormComponent implements OnInit {
     const field = this.resetPasswordForm.controls[fieldName];
     return field.invalid && field.touched;
   }
-  /********** GETTERS **********/
-
-  /********** SETTERS **********/
 }
